@@ -3,226 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KCET 2026 | QUANTUM PREDICTOR</title>
+    <title>SYS.RANK | QUANTUM PREDICTOR</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
-            --dark-bg: #050914;
-            --glass-bg: rgba(10, 15, 30, 0.6);
-            --glass-border: rgba(0, 243, 255, 0.2);
+            --dark-bg: #030712;
+            --glass-bg: rgba(6, 11, 25, 0.8);
+            --glass-border: rgba(0, 243, 255, 0.3);
         }
         
         body {
             background-color: var(--dark-bg);
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(188, 19, 254, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.15), transparent 25%);
+                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.2), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.2), transparent 40%);
             font-family: 'Rajdhani', sans-serif;
-            color: #e0fbfc;
+            color: #e2e8f0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            overflow-x: hidden;
         }
 
         .cyber-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(188, 19, 254, 0.05);
-            padding: 35px;
-            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
+            padding: 40px;
+            border-radius: 24px;
             width: 100%;
-            max-width: 450px;
+            max-width: 440px;
             position: relative;
-        }
-
-        /* Decorative UI Elements */
-        .cyber-card::before {
-            content: ''; position: absolute; top: -2px; left: 5%; width: 40%; height: 2px;
-            background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan);
-        }
-        .cyber-card::after {
-            content: ''; position: absolute; bottom: -2px; right: 5%; width: 40%; height: 2px;
-            background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple);
+            border-top: 4px solid var(--neon-cyan);
         }
 
         h2 {
-            font-family: 'Orbitron', sans-serif; text-align: center; margin: 0 0 5px 0;
-            color: #fff; text-shadow: 0 0 10px var(--neon-cyan); font-weight: 900; letter-spacing: 2px;
-        }
-        .subtitle {
-            text-align: center; font-size: 13px; color: var(--neon-purple); 
-            margin-bottom: 30px; letter-spacing: 3px; font-weight: 700; text-shadow: 0 0 5px rgba(188, 19, 254, 0.5);
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 15px var(--neon-cyan);
+            letter-spacing: 4px;
+            font-size: 24px;
         }
 
-        .input-group { margin-bottom: 20px; }
+        .subtitle {
+            text-align: center;
+            font-size: 11px;
+            color: var(--neon-purple);
+            margin-bottom: 30px;
+            letter-spacing: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .input-group { margin-bottom: 18px; }
         label {
-            display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px;
-            color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;
+            display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px;
+            color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px;
         }
         input, select {
-            width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
-            color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 17px;
-            transition: all 0.3s ease; box-sizing: border-box;
+            width: 100%; padding: 14px; background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
+            color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 18px;
+            box-sizing: border-box; transition: 0.3s;
         }
-        input:focus, select:focus {
+        input:focus {
             outline: none; border-color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3); background: rgba(0, 243, 255, 0.05);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
         }
 
         button {
-            width: 100%; padding: 16px; background: transparent;
-            color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 16px;
-            font-weight: 700; border: 1px solid var(--neon-cyan); border-radius: 8px;
-            cursor: pointer; transition: all 0.3s; margin-top: 10px; letter-spacing: 2px;
-            text-transform: uppercase; position: relative; overflow: hidden;
+            width: 100%; padding: 18px; background: transparent;
+            color: var(--neon-cyan); font-family: 'Orbitron', sans-serif;
+            font-weight: 900; border: 2px solid var(--neon-cyan); border-radius: 12px;
+            cursor: pointer; transition: 0.4s; margin-top: 10px;
+            text-transform: uppercase; letter-spacing: 2px;
         }
         button:hover {
             background: var(--neon-cyan); color: #000;
-            box-shadow: 0 0 20px var(--neon-cyan);
+            box-shadow: 0 0 30px var(--neon-cyan);
         }
 
-        .result-section { margin-top: 30px; display: none; animation: hologramFade 0.6s ease; }
-        @keyframes hologramFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        .rank-card {
-            background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 12px;
-            text-align: center; border: 1px solid rgba(188, 19, 254, 0.3);
-            position: relative;
-        }
-        .rank-title { font-size: 14px; color: #a0aec0; text-transform: uppercase; letter-spacing: 2px; }
-        .rank-value {
-            font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 900;
-            color: #fff; text-shadow: 0 0 15px var(--neon-purple); margin: 10px 0; display: block;
-        }
-        .composite-score { font-size: 15px; color: var(--neon-cyan); font-weight: 700; letter-spacing: 1px;}
+        .result-section { margin-top: 35px; display: none; }
         
-        .goal-box {
-            margin-top: 20px; background: rgba(0, 243, 255, 0.05); padding: 15px;
-            border-radius: 12px; border-left: 4px solid var(--neon-cyan);
-            font-size: 15px; line-height: 1.6;
+        .rank-box {
+            background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 16px;
+            text-align: center; border: 1px solid var(--neon-purple);
         }
-        .highlight { color: var(--neon-cyan); font-weight: 700; text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); }
+        .rank-label { font-size: 12px; color: #94a3b8; letter-spacing: 2px; }
+        .rank-output {
+            font-family: 'Orbitron', sans-serif; font-size: 36px; 
+            color: #fff; text-shadow: 0 0 20px var(--neon-purple); margin: 8px 0; display: block;
+        }
+
+        .goal-alert {
+            margin-top: 20px; background: rgba(0, 243, 255, 0.08); padding: 18px;
+            border-radius: 16px; border-right: 4px solid var(--neon-cyan);
+            font-size: 14px; line-height: 1.6; border-left: 1px solid rgba(0, 243, 255, 0.2);
+        }
+        .bright { color: var(--neon-cyan); font-weight: 800; }
     </style>
 </head>
 <body>
 
 <div class="cyber-card">
-    <h2>SYS.PREDICTOR</h2>
-    <div class="subtitle">QUANTUM ALG v3.0</div>
+    <h2>QUANTX.PREDICT</h2>
+    <div class="subtitle">CALIBRATION V4.0</div>
     
     <div class="input-group">
-        <label>PUC Board PCM (Out of 300)</label>
-        <input type="number" id="board" placeholder="e.g. 265">
+        <label>PUC Board PCM (300)</label>
+        <input type="number" id="board" value="265">
     </div>
 
     <div class="input-group">
-        <label>KCET PCM Total (Out of 180)</label>
-        <input type="number" id="kcet" placeholder="e.g. 90">
-    </div>
-
-    <div class="input-group">
-        <label>Blind Guesses (Penalty Config)</label>
-        <input type="number" id="guess" placeholder="e.g. 10">
+        <label>KCET PCM Score (180)</label>
+        <input type="number" id="kcet" value="90">
     </div>
 
     <div class="input-group">
         <label>Simulation Difficulty</label>
         <select id="diff">
-            <option value="mid">Standard Vector</option>
-            <option value="hard">Hard (+ Rank Shift)</option>
-            <option value="easy">Easy (- Rank Shift)</option>
+            <option value="mid">Standard Matrix</option>
+            <option value="hard">Hard (+ Rank Boost)</option>
+            <option value="easy">Easy (- Rank Penalty)</option>
         </select>
     </div>
 
-    <button onclick="executeAlgorithm()">Initialize Simulation</button>
+    <button onclick="simulate()">RUN SIMULATION</button>
 
     <div id="results" class="result-section">
-        <div class="rank-card">
-            <span class="rank-title">Estimated Rank Vector (±1000)</span>
-            <span class="rank-value" id="rankDisplay"></span>
-            <span class="composite-score" id="compDisplay"></span>
+        <div class="rank-box">
+            <span class="rank-label">ESTIMATED RANK VECTOR</span>
+            <span class="rank-output" id="rankDisplay"></span>
+            <span style="color: var(--neon-cyan); font-weight: 700; font-size: 13px;" id="compText"></span>
         </div>
 
-        <div class="goal-box" id="goalBox">
-            <span id="goalText"></span>
-        </div>
+        <div class="goal-alert" id="goalBox"></div>
     </div>
 </div>
 
 <script>
-    function executeAlgorithm() {
+    function simulate() {
         const board = parseFloat(document.getElementById('board').value) || 0;
         const kcet = parseFloat(document.getElementById('kcet').value) || 0;
-        const guess = parseInt(document.getElementById('guess').value) || 0;
         const diff = document.getElementById('diff').value;
 
-        // Step 1: Composite Score (official 50:50)
-        const kcet_pct = (kcet / 180) * 100;
-        const puc_pct = (board / 300) * 100;
-        const composite = (kcet_pct + puc_pct) / 2;
+        // 1. Precise Composite (50:50)
+        const boardPct = (board / 300) * 100;
+        const kcetPct = (kcet / 180) * 100;
+        const comp = (boardPct + kcetPct) / 2;
 
-        // Step 2: Calibrated Exponential Regression (Anchored for 2026 scaling)
-        // Formula tuned: log_rank = -0.11 * composite + 17.3
-        const log_rank = (-0.11 * composite) + 17.3;
-        let center_rank = Math.exp(log_rank);
+        // 2. Calibrated Alg (Refined constants for better precision)
+        const logRank = (-0.111 * comp) + 17.36;
+        let baseRank = Math.exp(logRank);
 
-        // Step 3: Modifiers
-        const guessPenalty = guess * 100;
-        let diffModifier = 0;
-        if (diff === "hard") diffModifier = -800;
-        if (diff === "easy") diffModifier = 1200;
+        // Difficulty Modifiers
+        if (diff === "hard") baseRank *= 0.94;
+        if (diff === "easy") baseRank *= 1.08;
 
-        // Apply Modifiers
-        center_rank = Math.floor(center_rank + guessPenalty + diffModifier);
-        if (center_rank < 1) center_rank = 1;
+        const centerRank = Math.floor(baseRank);
+        const lower = Math.max(1, centerRank - 500);
+        const upper = centerRank + 500;
 
-        // Step 4: Strict ±1000 Bounds
-        let lower = Math.max(1, center_rank - 1000);
-        let upper = center_rank + 1000;
-
-        // Step 5: Advanced Goal Calculator (Back-propagation)
-        const targets = [500, 2000, 5000, 10000, 15000, 20000];
-        let target_rank = 20000; // Default fallback
-        for (let t of targets) {
-            if (center_rank > t) {
-                target_rank = t;
+        // 3. Smart Goal Acquisition (Only suggest possible goals)
+        const milestones = [500, 1000, 2000, 5000, 10000, 15000, 20000, 30000];
+        let nextTarget = 0;
+        
+        // Find the closest higher milestone
+        for (let m of milestones) {
+            if (centerRank > m) {
+                nextTarget = m;
                 break;
             }
         }
 
-        // Reverse engineer the formula to find exact KCET marks needed for target_rank
-        // log(target_rank) = -0.11 * target_comp + 17.3
-        const target_comp = (17.3 - Math.log(target_rank)) / 0.11;
-        
-        // target_comp = (kcet_pct_needed + puc_pct) / 2
-        const needed_kcet_pct = (target_comp * 2) - puc_pct;
-        const needed_kcet_marks = Math.ceil((needed_kcet_pct / 100) * 180);
-        const marks_diff = needed_kcet_marks - kcet;
+        // Calculate needed KCET marks for that target
+        // log(m) = -0.111 * targetComp + 17.36
+        const targetComp = (17.36 - Math.log(nextTarget)) / 0.111;
+        const neededKcetPct = (targetComp * 2) - boardPct;
+        const neededKcetMarks = Math.ceil((neededKcetPct / 100) * 180);
+        const extraNeeded = neededKcetMarks - kcet;
 
         // Render UI
         document.getElementById('results').style.display = 'block';
         document.getElementById('rankDisplay').innerText = `${lower.toLocaleString()} - ${upper.toLocaleString()}`;
-        document.getElementById('compDisplay').innerText = `SYS.COMPOSITE: ${composite.toFixed(2)}%`;
+        document.getElementById('compText').innerText = `COMPOSITE: ${comp.toFixed(2)}%`;
 
-        if (marks_diff > 0 && needed_kcet_marks <= 180) {
-            document.getElementById('goalText').innerHTML = `TARGET ACQUISITION: Rank <span class="highlight">${target_rank.toLocaleString()}</span><br><br>Status: You need exactly <span class="highlight">${marks_diff} more marks</span> in KCET (Total: ${needed_kcet_marks}/180) to reach this threshold.`;
-        } else if (needed_kcet_marks > 180) {
-            document.getElementById('goalText').innerHTML = `TARGET ACQUISITION: Rank <span class="highlight">${target_rank.toLocaleString()}</span><br><br>Status: Mathematical limit reached. You would need ${needed_kcet_marks}/180 to hit this rank. Focus on maximizing current output.`;
+        let goalHtml = "";
+        if (extraNeeded > 0 && neededKcetMarks <= 180) {
+            goalHtml = `TARGET: Rank <span class="bright">${nextTarget.toLocaleString()}</span><br>Status: Secure <span class="bright">+${extraNeeded} more marks</span> in KCET to breach this threshold.`;
+        } else if (neededKcetMarks > 180) {
+            // If the next milestone is impossible, find the absolute best rank possible (180/180)
+            const maxComp = (boardPct + 100) / 2;
+            const maxRank = Math.floor(Math.exp((-0.111 * maxComp) + 17.36));
+            goalHtml = `SYSTEM LIMIT: With your board marks, the best possible rank is <span class="bright">~${maxRank.toLocaleString()}</span> (requires 180/180).`;
         } else {
-            document.getElementById('goalText').innerHTML = `STATUS: ELITE.<br>You are projecting past the <span class="highlight">${target_rank.toLocaleString()}</span> threshold. Maintain current trajectory.`;
+            goalHtml = `STATUS: <span class="bright">ELITE</span>. You are currently outperforming standard projections for this sector.`;
         }
+        
+        document.getElementById('goalBox').innerHTML = goalHtml;
     }
 </script>
 
 </body>
 </html>
-

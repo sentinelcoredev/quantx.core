@@ -3,157 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My KCET Rank Predictor</title>
+    <title>KCET 2026 Pro Rank Predictor</title>
     <style>
-        /* This section controls how your website looks */
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #dc2626;
+            --bg: #f8fafc;
+        }
         body {
-            background-color: #2b6cb0; /* Simple clean blue background */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #1e293b;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
-        .container {
-            background-color: white;
+        .app-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
         }
-        h2 {
-            text-align: center;
-            color: #2b6cb0;
-            margin-top: 0;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-        }
+        h2 { text-align: center; color: var(--secondary); margin-bottom: 5px; font-weight: 800; }
+        .subtitle { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #475569; }
         input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 16px;
+            width: 100%; padding: 12px; border: 2px solid #e2e8f0;
+            border-radius: 10px; font-size: 16px; transition: 0.3s; box-sizing: border-box;
         }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        
         button {
-            width: 100%;
-            padding: 12px;
-            background-color: #2b6cb0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
+            width: 100%; padding: 16px; background: var(--primary); color: white;
+            border: none; border-radius: 12px; font-size: 18px; font-weight: 700;
+            cursor: pointer; margin-top: 10px; transition: 0.3s;
         }
-        button:hover {
-            background-color: #1a4971;
+        button:hover { background: var(--secondary); transform: translateY(-2px); }
+
+        .result-section { margin-top: 25px; display: none; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .rank-card {
+            background: #f1f5f9; padding: 20px; border-radius: 15px; text-align: center;
+            border-left: 5px solid var(--primary);
         }
-        .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #edf2f7;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            display: none; /* Hidden until button is clicked */
+        .rank-title { font-size: 14px; font-weight: 600; color: #64748b; }
+        .rank-value { font-size: 32px; font-weight: 800; color: var(--accent); display: block; }
+        
+        .goal-box {
+            margin-top: 15px; background: #ecfdf5; padding: 15px; border-radius: 12px;
+            border-left: 5px solid #10b981; font-size: 13px; line-height: 1.5;
         }
+        .goal-title { font-weight: 800; color: #065f46; display: block; margin-bottom: 5px; }
+
+        .branch-badge {
+            display: inline-block; padding: 4px 10px; border-radius: 6px; 
+            font-size: 11px; font-weight: 700; margin-top: 10px;
+        }
+        .prob-high { background: #dcfce7; color: #166534; }
+        .prob-low { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>KCET Rank Predictor</h2>
+<div class="app-card">
+    <h2>KCET Rank Pro</h2>
+    <div class="subtitle">State Board Edition • 2026 Predictor</div>
     
-    <label for="boardScore">2nd PUC PCM Score (out of 300):</label>
-    <input type="number" id="boardScore" placeholder="e.g. 285" max="300" min="0">
+    <div class="input-group">
+        <label>PUC Board PCM Total (out of 300)</label>
+        <input type="number" id="board" placeholder="e.g. 265">
+    </div>
 
-    <label for="kcetScore">KCET PCM Score (out of 180):</label>
-    <input type="number" id="kcetScore" placeholder="e.g. 120" max="180" min="0">
+    <div class="input-group">
+        <label>KCET PCM Total (out of 180)</label>
+        <input type="number" id="kcet" placeholder="e.g. 90">
+    </div>
 
-    <label for="guesses">How many questions did you blind guess?</label>
-    <input type="number" id="guesses" placeholder="e.g. 10" min="0">
+    <div class="input-group">
+        <label>Number of Blind Guesses</label>
+        <input type="number" id="guess" placeholder="0">
+    </div>
 
-    <label for="difficulty">How hard was the exam overall?</label>
-    <select id="difficulty">
-        <option value="mid">Mid / Normal</option>
-        <option value="hard">Hard (-500 Rank)</option>
-        <option value="easy">Easy (+1000 Rank)</option>
-    </select>
+    <div class="input-group">
+        <label>Paper Difficulty</label>
+        <select id="diff">
+            <option value="1">Moderate (Normal)</option>
+            <option value="0.95">Hard (Ranks Improve)</option>
+            <option value="1.05">Easy (High Competition)</option>
+        </select>
+    </div>
 
-    <button onclick="calculateRank()">Predict My Rank</button>
+    <button onclick="predict()">Calculate My Rank</button>
 
-    <div id="result" class="result-box"></div>
+    <div id="results" class="result-section">
+        <div class="rank-card">
+            <span class="rank-title">Estimated Rank Range</span>
+            <span class="rank-value" id="rankDisplay"></span>
+            <div id="branchProb"></div>
+        </div>
+
+        <div class="goal-box" id="goalBox">
+            <span class="goal-title">🎯 The Next Milestone</span>
+            <span id="goalText"></span>
+        </div>
+    </div>
 </div>
 
 <script>
-    /* This section controls the math and logic */
-    function calculateRank() {
-        // 1. Get the numbers the user typed in
-        let board = parseFloat(document.getElementById('boardScore').value) || 0;
-        let kcet = parseFloat(document.getElementById('kcetScore').value) || 0;
-        let guesses = parseInt(document.getElementById('guesses').value) || 0;
-        let difficulty = document.getElementById('difficulty').value;
+    function predict() {
+        const board = parseFloat(document.getElementById('board').value) || 0;
+        const kcet = parseFloat(document.getElementById('kcet').value) || 0;
+        const guess = parseInt(document.getElementById('guess').value) || 0;
+        const diffMult = parseFloat(document.getElementById('diff').value);
 
-        // 2. Calculate the 50:50 Composite Score
-        let boardWeight = (board / 300) * 50;
-        let kcetWeight = (kcet / 180) * 50;
-        let composite = boardWeight + kcetWeight;
+        // 1. Core Logic (50:50)
+        const comp = ((board/300)*50) + ((kcet/180)*50);
 
-        // 3. Figure out a Base Rank based on the composite percentage
-        let baseRank = 0;
-        if (composite >= 95) {
-            baseRank = (100 - composite) * 100; // 99% = 100 rank, 95% = 500 rank
-        } else if (composite >= 90) {
-            baseRank = 500 + ((95 - composite) * 400); // Scales from 500 to 2500
-        } else if (composite >= 80) {
-            baseRank = 2500 + ((90 - composite) * 750); // Scales from 2500 to 10000
-        } else if (composite >= 70) {
-            baseRank = 10000 + ((80 - composite) * 1500); // Scales from 10000 to 25000
-        } else {
-            baseRank = 25000 + ((70 - composite) * 3000); // Anything below 70 scales up fast
-        }
+        // 2. Realistic Base Rank Logic
+        let base;
+        if (comp >= 90) base = (100 - comp) * 300;
+        else if (comp >= 80) base = 3000 + ((90 - comp) * 700);
+        else if (comp >= 70) base = 10000 + ((80 - comp) * 1000);
+        else if (comp >= 60) base = 20000 + ((70 - comp) * 1500);
+        else base = 35000 + ((60 - comp) * 3500);
 
-        // 4. Apply Feature 1: The Guessing Penalty (10 guesses = +1000 rank, so 1 guess = 100)
-        let guessPenalty = guesses * 100;
+        // 3. User adjustments
+        const penalty = guess * 100;
+        let finalRank = Math.floor((base * diffMult) + penalty);
+        if (finalRank < 1) finalRank = 1;
 
-        // 5. Apply Feature 2: Exam Difficulty 
-        let difficultyModifier = 0;
-        if (difficulty === "hard") {
-            difficultyModifier = -500;
-        } else if (difficulty === "easy") {
-            difficultyModifier = 1000;
-        }
+        // 4. Feature: Branch Probability (Extra Feature)
+        let branchHtml = "";
+        if (finalRank < 5000) branchHtml = '<span class="branch-badge prob-high">High Chance: CS/IS in Top Colleges</span>';
+        else if (finalRank < 15000) branchHtml = '<span class="branch-badge prob-high">High Chance: ECE/Mechanical</span>';
+        else branchHtml = '<span class="branch-badge prob-low">CS/IS might be tough in Tier 1</span>';
 
-        // 6. Calculate Final Rank
-        let finalRank = Math.floor(baseRank + guessPenalty + difficultyModifier);
+        // 5. Feature: The Goal Tracker
+        let targetRank = 1000;
+        if (finalRank > 20000) targetRank = 10000;
+        else if (finalRank > 10000) targetRank = 5000;
+        else if (finalRank > 5000) targetRank = 2000;
+        else targetRank = 500;
+
+        // Back-calculating marks needed for target rank
+        // Approximate composite needed for milestone ranks
+        const targets = {10000: 78, 5000: 84, 2000: 90, 500: 95};
+        const neededComp = targets[targetRank] || 95;
+        const neededKcetMarks = Math.ceil((((neededComp - ((board/300)*50))/50) * 180));
+        const diffMarks = Math.max(0, neededKcetMarks - kcet);
+
+        // UI Updates
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('rankDisplay').innerText = `${(finalRank-500).toLocaleString()} - ${(finalRank+500).toLocaleString()}`;
+        document.getElementById('branchProb').innerHTML = branchHtml;
         
-        // Prevent negative ranks (Rank 1 is the best you can get)
-        if (finalRank < 1) {
-            finalRank = 1;
+        if (diffMarks > 0) {
+            document.getElementById('goalText').innerHTML = `To reach the <b>Top ${targetRank.toLocaleString()} Rank</b>, you need approximately <b>${diffMarks} more marks</b> in KCET!`;
+        } else {
+            document.getElementById('goalText').innerHTML = `Amazing! You are already on track for the <b>Top ${targetRank.toLocaleString()} Rank</b>. Keep it up!`;
         }
-
-        // 7. Show the result on the screen
-        let resultDiv = document.getElementById('result');
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = `
-            Composite Score: <span style="color:#2b6cb0;">${composite.toFixed(2)} / 100</span><br><br>
-            Estimated Rank: <span style="color:#e53e3e;">~ ${finalRank.toLocaleString()}</span>
-        `;
     }
 </script>
 
 </body>
-  </html>
-
+</html>

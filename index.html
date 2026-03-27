@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYS.RANK | QUANTUM PREDICTOR</title>
+    <title>QuantX Predictor | 2026 Master</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
-            --dark-bg: #030712;
-            --glass-bg: rgba(6, 11, 25, 0.8);
-            --glass-border: rgba(0, 243, 255, 0.3);
+            --dark-bg: #020617;
+            --glass: rgba(15, 23, 42, 0.85);
+            --border: rgba(0, 243, 255, 0.3);
         }
         
         body {
             background-color: var(--dark-bg);
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.2), transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.2), transparent 40%);
+                radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.15), transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(0, 243, 255, 0.15), transparent 50%);
             font-family: 'Rajdhani', sans-serif;
-            color: #e2e8f0;
+            color: #f1f5f9;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,17 +29,16 @@
             padding: 20px;
         }
 
-        .cyber-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
+        .container {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
             padding: 40px;
-            border-radius: 24px;
+            border-radius: 20px;
             width: 100%;
-            max-width: 440px;
-            position: relative;
-            border-top: 4px solid var(--neon-cyan);
+            max-width: 420px;
+            border-top: 5px solid var(--neon-cyan);
         }
 
         h2 {
@@ -47,169 +46,183 @@
             text-align: center;
             margin: 0;
             color: #fff;
-            text-shadow: 0 0 15px var(--neon-cyan);
-            letter-spacing: 4px;
-            font-size: 24px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            letter-spacing: 3px;
+            font-size: 22px;
         }
 
-        .subtitle {
-            text-align: center;
-            font-size: 11px;
-            color: var(--neon-purple);
-            margin-bottom: 30px;
-            letter-spacing: 5px;
-            font-weight: 700;
-            text-transform: uppercase;
+        .version {
+            text-align: center; font-size: 10px; color: var(--neon-purple);
+            margin-bottom: 25px; letter-spacing: 4px; font-weight: 700;
         }
 
-        .input-group { margin-bottom: 18px; }
+        .group { margin-bottom: 15px; }
         label {
-            display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px;
-            color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px;
+            display: block; font-size: 11px; font-weight: 700; margin-bottom: 5px;
+            color: #94a3b8; text-transform: uppercase; letter-spacing: 2px;
         }
         input, select {
-            width: 100%; padding: 14px; background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
+            width: 100%; padding: 12px; background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
             color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 18px;
-            box-sizing: border-box; transition: 0.3s;
+            box-sizing: border-box; outline: none; transition: 0.3s;
         }
-        input:focus {
-            outline: none; border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-        }
+        input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
 
         button {
-            width: 100%; padding: 18px; background: transparent;
+            width: 100%; padding: 16px; background: transparent;
             color: var(--neon-cyan); font-family: 'Orbitron', sans-serif;
-            font-weight: 900; border: 2px solid var(--neon-cyan); border-radius: 12px;
-            cursor: pointer; transition: 0.4s; margin-top: 10px;
+            font-weight: 900; border: 2px solid var(--neon-cyan); border-radius: 8px;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
             text-transform: uppercase; letter-spacing: 2px;
         }
-        button:hover {
-            background: var(--neon-cyan); color: #000;
-            box-shadow: 0 0 30px var(--neon-cyan);
-        }
+        button:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 25px var(--neon-cyan); }
 
-        .result-section { margin-top: 35px; display: none; }
-        
-        .rank-box {
-            background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 16px;
+        .output { margin-top: 30px; display: none; }
+        .rank-card {
+            background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 12px;
             text-align: center; border: 1px solid var(--neon-purple);
         }
-        .rank-label { font-size: 12px; color: #94a3b8; letter-spacing: 2px; }
-        .rank-output {
-            font-family: 'Orbitron', sans-serif; font-size: 36px; 
-            color: #fff; text-shadow: 0 0 20px var(--neon-purple); margin: 8px 0; display: block;
+        .rank-val {
+            font-family: 'Orbitron', sans-serif; font-size: 32px; 
+            color: #fff; text-shadow: 0 0 15px var(--neon-purple); display: block;
         }
 
-        .goal-alert {
-            margin-top: 20px; background: rgba(0, 243, 255, 0.08); padding: 18px;
-            border-radius: 16px; border-right: 4px solid var(--neon-cyan);
-            font-size: 14px; line-height: 1.6; border-left: 1px solid rgba(0, 243, 255, 0.2);
+        .goal-box {
+            margin-top: 15px; background: rgba(0, 243, 255, 0.05); padding: 15px;
+            border-radius: 12px; border-left: 3px solid var(--neon-cyan);
+            font-size: 14px; line-height: 1.5;
         }
-        .bright { color: var(--neon-cyan); font-weight: 800; }
+
+        .motivation {
+            margin-top: 20px; font-style: italic; text-align: center;
+            color: #cbd5e1; font-size: 13px; border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px; line-height: 1.4;
+        }
+        .glow { color: var(--neon-cyan); font-weight: 700; }
     </style>
 </head>
 <body>
 
-<div class="cyber-card">
-    <h2>QUANTX.PREDICT</h2>
-    <div class="subtitle">CALIBRATION V4.0</div>
+<div class="container">
+    <h2>QUANTX.CORE</h2>
+    <div class="version">FINAL STAGE CALIBRATION</div>
     
-    <div class="input-group">
-        <label>PUC Board PCM (300)</label>
-        <input type="number" id="board" value="265">
+    <div class="group">
+        <label>PUC PCM SCORE (300)</label>
+        <input type="number" id="board" placeholder="265">
     </div>
 
-    <div class="input-group">
-        <label>KCET PCM Score (180)</label>
-        <input type="number" id="kcet" value="90">
+    <div class="group">
+        <label>KCET PCM SCORE (180)</label>
+        <input type="number" id="kcet" placeholder="90">
     </div>
 
-    <div class="input-group">
-        <label>Simulation Difficulty</label>
+    <div class="group">
+        <label>SYSTEM MATRIX</label>
         <select id="diff">
-            <option value="mid">Standard Matrix</option>
-            <option value="hard">Hard (+ Rank Boost)</option>
-            <option value="easy">Easy (- Rank Penalty)</option>
+            <option value="mid">Balanced Vector</option>
+            <option value="hard">High Resistance (+ Rank Boost)</option>
+            <option value="easy">Low Resistance (- Rank Penalty)</option>
         </select>
     </div>
 
-    <button onclick="simulate()">RUN SIMULATION</button>
+    <button onclick="run()">EXECUTE SIMULATION</button>
 
-    <div id="results" class="result-section">
-        <div class="rank-box">
-            <span class="rank-label">ESTIMATED RANK VECTOR</span>
-            <span class="rank-output" id="rankDisplay"></span>
-            <span style="color: var(--neon-cyan); font-weight: 700; font-size: 13px;" id="compText"></span>
+    <div id="out" class="output">
+        <div class="rank-card">
+            <span style="font-size: 10px; letter-spacing: 2px; color: #94a3b8;">ESTIMATED RANK (±500)</span>
+            <span class="rank-val" id="rankText"></span>
+            <span style="color: var(--neon-cyan); font-size: 12px;" id="compText"></span>
         </div>
 
-        <div class="goal-alert" id="goalBox"></div>
+        <div class="goal-box" id="goalBox"></div>
+        <div class="motivation" id="quoteBox"></div>
     </div>
 </div>
 
 <script>
-    function simulate() {
+    const quotes = [
+        "180 minutes defines your 4 years. Make every second count.",
+        "Your rank isn't just a number; it's the key to your future campus.",
+        "The pain of discipline is far less than the pain of regret.",
+        "One more mark could mean one less year of struggle.",
+        "PES, RV, MSRIT... they aren't dreams, they are targets.",
+        "Don't study to pass; study to dominate the merit list.",
+        "Every MCQ you skip is a thousand ranks you lose. Focus!",
+        "The 'Hard' paper is a gift for the prepared mind. Embrace it.",
+        "Consistency is the secret sauce. Keep grinding.",
+        "Your competition is studying right now. Are you?",
+        "A 60-mark jump is just 20 marks per subject. It's possible.",
+        "Visualize your name in the Top 1000. Now work for it.",
+        "KCET is a game of speed. Sharp mind, sharp pen.",
+        "Negative thoughts are the only thing you should skip.",
+        "Boards are over. Now the real battle begins.",
+        "Success is what happens after you survive the boring hours.",
+        "Mistakes in mocks are lessons for the main event.",
+        "Be so good they can't ignore your rank.",
+        "Your parents' pride is worth more than a few hours of sleep.",
+        "The library is your training ground. The hall is your arena.",
+        "Focus on Math. It's the ultimate tie-breaker.",
+        "Physics is logic. Chemistry is memory. Math is speed.",
+        "Stay hungry. Stay focused. Stay at the top.",
+        "The best way to predict your rank is to create it.",
+        "Ranks are won in the last 30 days of preparation.",
+        "Small improvements daily lead to massive rank jumps.",
+        "Don't watch the clock; do what it does. Keep going.",
+        "You are closer than you were yesterday.",
+        "Push yourself, because no one else is going to do it for you.",
+        "Elite ranks require elite effort. No excuses."
+    ];
+
+    function run() {
         const board = parseFloat(document.getElementById('board').value) || 0;
         const kcet = parseFloat(document.getElementById('kcet').value) || 0;
         const diff = document.getElementById('diff').value;
 
-        // 1. Precise Composite (50:50)
         const boardPct = (board / 300) * 100;
         const kcetPct = (kcet / 180) * 100;
         const comp = (boardPct + kcetPct) / 2;
 
-        // 2. Calibrated Alg (Refined constants for better precision)
-        const logRank = (-0.111 * comp) + 17.36;
-        let baseRank = Math.exp(logRank);
+        // Core Algorithm (±500 logic)
+        const logR = (-0.111 * comp) + 17.36;
+        let cRank = Math.exp(logR);
+        if (diff === "hard") cRank *= 0.95;
+        if (diff === "easy") cRank *= 1.07;
 
-        // Difficulty Modifiers
-        if (diff === "hard") baseRank *= 0.94;
-        if (diff === "easy") baseRank *= 1.08;
+        const finalR = Math.floor(cRank);
+        const low = Math.max(1, finalR - 500);
+        const high = finalR + 500;
 
-        const centerRank = Math.floor(baseRank);
-        const lower = Math.max(1, centerRank - 500);
-        const upper = centerRank + 500;
+        // Smart Goal Calc
+        const targets = [500, 1000, 2000, 5000, 10000, 15000, 20000, 30000];
+        let nextT = 0;
+        for (let m of targets) { if (finalR > m) { nextT = m; break; } }
 
-        // 3. Smart Goal Acquisition (Only suggest possible goals)
-        const milestones = [500, 1000, 2000, 5000, 10000, 15000, 20000, 30000];
-        let nextTarget = 0;
-        
-        // Find the closest higher milestone
-        for (let m of milestones) {
-            if (centerRank > m) {
-                nextTarget = m;
-                break;
-            }
-        }
+        const tComp = (17.36 - Math.log(nextT)) / 0.111;
+        const nKcetPct = (tComp * 2) - boardPct;
+        const nKcetM = Math.ceil((nKcetPct / 100) * 180);
+        const diffM = nKcetM - kcet;
 
-        // Calculate needed KCET marks for that target
-        // log(m) = -0.111 * targetComp + 17.36
-        const targetComp = (17.36 - Math.log(nextTarget)) / 0.111;
-        const neededKcetPct = (targetComp * 2) - boardPct;
-        const neededKcetMarks = Math.ceil((neededKcetPct / 100) * 180);
-        const extraNeeded = neededKcetMarks - kcet;
-
-        // Render UI
-        document.getElementById('results').style.display = 'block';
-        document.getElementById('rankDisplay').innerText = `${lower.toLocaleString()} - ${upper.toLocaleString()}`;
+        // UI Updates
+        document.getElementById('out').style.display = 'block';
+        document.getElementById('rankText').innerText = `${low.toLocaleString()} - ${high.toLocaleString()}`;
         document.getElementById('compText').innerText = `COMPOSITE: ${comp.toFixed(2)}%`;
-
-        let goalHtml = "";
-        if (extraNeeded > 0 && neededKcetMarks <= 180) {
-            goalHtml = `TARGET: Rank <span class="bright">${nextTarget.toLocaleString()}</span><br>Status: Secure <span class="bright">+${extraNeeded} more marks</span> in KCET to breach this threshold.`;
-        } else if (neededKcetMarks > 180) {
-            // If the next milestone is impossible, find the absolute best rank possible (180/180)
-            const maxComp = (boardPct + 100) / 2;
-            const maxRank = Math.floor(Math.exp((-0.111 * maxComp) + 17.36));
-            goalHtml = `SYSTEM LIMIT: With your board marks, the best possible rank is <span class="bright">~${maxRank.toLocaleString()}</span> (requires 180/180).`;
-        } else {
-            goalHtml = `STATUS: <span class="bright">ELITE</span>. You are currently outperforming standard projections for this sector.`;
-        }
         
-        document.getElementById('goalBox').innerHTML = goalHtml;
+        let goalText = "";
+        if (diffM > 0 && nKcetM <= 180) {
+            goalText = `NEXT TARGET: <span class="glow">Rank ${nextT.toLocaleString()}</span><br>Status: You need <span class="glow">+${diffM} more marks</span> in KCET to reach this level.`;
+        } else if (nKcetM > 180) {
+            const mComp = (boardPct + 100) / 2;
+            const mRank = Math.floor(Math.exp((-0.111 * mComp) + 17.36));
+            goalText = `LIMIT REACHED: Best possible rank with your boards is <span class="glow">~${mRank.toLocaleString()}</span>.`;
+        } else {
+            goalText = `STATUS: <span class="glow">DEEP SPACE</span>. You have exceeded all standard rank milestones.`;
+        }
+        document.getElementById('goalBox').innerHTML = goalText;
+        document.getElementById('quoteBox').innerText = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
     }
 </script>
-
 </body>
 </html>
+

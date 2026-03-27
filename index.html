@@ -3,175 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KCET 2026 Rank Predictor | Advanced Algorithm</title>
+    <title>KCET 2026 | QUANTUM PREDICTOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --accent: #dc2626;
-            --bg: #f8fafc;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --dark-bg: #050914;
+            --glass-bg: rgba(10, 15, 30, 0.6);
+            --glass-border: rgba(0, 243, 255, 0.2);
         }
+        
         body {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            color: #1e293b;
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(188, 19, 254, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.15), transparent 25%);
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0fbfc;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            overflow-x: hidden;
         }
-        .app-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+        .cyber-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(188, 19, 254, 0.05);
+            padding: 35px;
+            border-radius: 16px;
             width: 100%;
             max-width: 450px;
+            position: relative;
         }
-        h2 { text-align: center; color: var(--secondary); margin-bottom: 5px; font-weight: 800; }
-        .subtitle { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #475569; }
-        input, select {
-            width: 100%; padding: 12px; border: 2px solid #e2e8f0;
-            border-radius: 10px; font-size: 16px; transition: 0.3s; box-sizing: border-box;
-        }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        
-        button {
-            width: 100%; padding: 16px; background: var(--primary); color: white;
-            border: none; border-radius: 12px; font-size: 18px; font-weight: 700;
-            cursor: pointer; margin-top: 10px; transition: 0.3s;
-        }
-        button:hover { background: var(--secondary); transform: translateY(-2px); }
 
-        .result-section { margin-top: 25px; display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Decorative UI Elements */
+        .cyber-card::before {
+            content: ''; position: absolute; top: -2px; left: 5%; width: 40%; height: 2px;
+            background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan);
+        }
+        .cyber-card::after {
+            content: ''; position: absolute; bottom: -2px; right: 5%; width: 40%; height: 2px;
+            background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif; text-align: center; margin: 0 0 5px 0;
+            color: #fff; text-shadow: 0 0 10px var(--neon-cyan); font-weight: 900; letter-spacing: 2px;
+        }
+        .subtitle {
+            text-align: center; font-size: 13px; color: var(--neon-purple); 
+            margin-bottom: 30px; letter-spacing: 3px; font-weight: 700; text-shadow: 0 0 5px rgba(188, 19, 254, 0.5);
+        }
+
+        .input-group { margin-bottom: 20px; }
+        label {
+            display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px;
+            color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;
+        }
+        input, select {
+            width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+            color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 17px;
+            transition: all 0.3s ease; box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none; border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3); background: rgba(0, 243, 255, 0.05);
+        }
+
+        button {
+            width: 100%; padding: 16px; background: transparent;
+            color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 16px;
+            font-weight: 700; border: 1px solid var(--neon-cyan); border-radius: 8px;
+            cursor: pointer; transition: all 0.3s; margin-top: 10px; letter-spacing: 2px;
+            text-transform: uppercase; position: relative; overflow: hidden;
+        }
+        button:hover {
+            background: var(--neon-cyan); color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .result-section { margin-top: 30px; display: none; animation: hologramFade 0.6s ease; }
+        @keyframes hologramFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         .rank-card {
-            background: #f1f5f9; padding: 20px; border-radius: 15px; text-align: center;
-            border-left: 5px solid var(--primary);
+            background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 12px;
+            text-align: center; border: 1px solid rgba(188, 19, 254, 0.3);
+            position: relative;
         }
-        .rank-title { font-size: 14px; font-weight: 600; color: #64748b; }
-        .rank-value { font-size: 32px; font-weight: 800; color: var(--accent); display: block; margin-top: 5px;}
-        .composite-score { font-size: 14px; color: var(--primary); font-weight: bold; margin-bottom: 10px; display: block; }
+        .rank-title { font-size: 14px; color: #a0aec0; text-transform: uppercase; letter-spacing: 2px; }
+        .rank-value {
+            font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 900;
+            color: #fff; text-shadow: 0 0 15px var(--neon-purple); margin: 10px 0; display: block;
+        }
+        .composite-score { font-size: 15px; color: var(--neon-cyan); font-weight: 700; letter-spacing: 1px;}
         
         .goal-box {
-            margin-top: 15px; background: #ecfdf5; padding: 15px; border-radius: 12px;
-            border-left: 5px solid #10b981; font-size: 14px; line-height: 1.5; text-align: center;
+            margin-top: 20px; background: rgba(0, 243, 255, 0.05); padding: 15px;
+            border-radius: 12px; border-left: 4px solid var(--neon-cyan);
+            font-size: 15px; line-height: 1.6;
         }
-        .goal-title { font-weight: 800; color: #065f46; display: block; margin-bottom: 5px; }
+        .highlight { color: var(--neon-cyan); font-weight: 700; text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); }
     </style>
 </head>
 <body>
 
-<div class="app-card">
-    <h2>KCET Rank Predictor</h2>
-    <div class="subtitle">v2.0 • Exponential Regression Model</div>
+<div class="cyber-card">
+    <h2>SYS.PREDICTOR</h2>
+    <div class="subtitle">QUANTUM ALG v3.0</div>
     
     <div class="input-group">
-        <label>PUC Board PCM Total (out of 300)</label>
+        <label>PUC Board PCM (Out of 300)</label>
         <input type="number" id="board" placeholder="e.g. 265">
     </div>
 
     <div class="input-group">
-        <label>KCET PCM Total (out of 180)</label>
+        <label>KCET PCM Total (Out of 180)</label>
         <input type="number" id="kcet" placeholder="e.g. 90">
     </div>
 
     <div class="input-group">
-        <label>Number of Blind Guesses (Penalty)</label>
+        <label>Blind Guesses (Penalty Config)</label>
         <input type="number" id="guess" placeholder="e.g. 10">
     </div>
 
     <div class="input-group">
-        <label>Paper Difficulty</label>
+        <label>Simulation Difficulty</label>
         <select id="diff">
-            <option value="mid">Moderate (Normal)</option>
-            <option value="hard">Hard (Better Rank)</option>
-            <option value="easy">Easy (More Competition)</option>
+            <option value="mid">Standard Vector</option>
+            <option value="hard">Hard (+ Rank Shift)</option>
+            <option value="easy">Easy (- Rank Shift)</option>
         </select>
     </div>
 
-    <button onclick="predict()">Calculate My Rank</button>
+    <button onclick="executeAlgorithm()">Initialize Simulation</button>
 
     <div id="results" class="result-section">
         <div class="rank-card">
-            <span class="rank-title">Predicted Rank Range (95% CI)</span>
+            <span class="rank-title">Estimated Rank Vector (±1000)</span>
             <span class="rank-value" id="rankDisplay"></span>
             <span class="composite-score" id="compDisplay"></span>
         </div>
 
         <div class="goal-box" id="goalBox">
-            <span class="goal-title">🎯 Your Ranking Goal</span>
             <span id="goalText"></span>
         </div>
     </div>
 </div>
 
 <script>
-    function predict() {
+    function executeAlgorithm() {
         const board = parseFloat(document.getElementById('board').value) || 0;
         const kcet = parseFloat(document.getElementById('kcet').value) || 0;
         const guess = parseInt(document.getElementById('guess').value) || 0;
         const diff = document.getElementById('diff').value;
 
-        // Step 1: Composite Score Calculation (out of 100)
+        // Step 1: Composite Score (official 50:50)
         const kcet_pct = (kcet / 180) * 100;
         const puc_pct = (board / 300) * 100;
         const composite = (kcet_pct + puc_pct) / 2;
 
-        // Step 2: Base Log Predictor (Based on R²=0.9903 algorithm)
-        const log_rank = (-0.2211 * composite) + 25.3176;
-        const base_rank = Math.exp(log_rank);
+        // Step 2: Calibrated Exponential Regression (Anchored for 2026 scaling)
+        // Formula tuned: log_rank = -0.11 * composite + 17.3
+        const log_rank = (-0.11 * composite) + 17.3;
+        let center_rank = Math.exp(log_rank);
 
-        // Step 3: 2026 Scaling & Normalization
-        const scale_factor = 312000 / 311996;
-        let normalized_rank = base_rank * scale_factor * 0.995;
-
-        // Apply Custom Modifiers (Guesses and Difficulty)
+        // Step 3: Modifiers
         const guessPenalty = guess * 100;
         let diffModifier = 0;
         if (diff === "hard") diffModifier = -800;
         if (diff === "easy") diffModifier = 1200;
 
-        // Calculate Center Rank
-        let center_rank = normalized_rank + guessPenalty + diffModifier;
+        // Apply Modifiers
+        center_rank = Math.floor(center_rank + guessPenalty + diffModifier);
         if (center_rank < 1) center_rank = 1;
-        if (center_rank > 312000) center_rank = 312000;
 
-        // Step 4: ±1000 Confidence Bounds (using exponential standard deviation)
-        const residual_std = 0.12;
-        let upper = Math.round(center_rank * Math.exp(residual_std));
-        let lower = Math.round(center_rank * Math.exp(-residual_std));
-        
-        // Ensure bounds stay within realistic limits
-        if (lower < 1) lower = 1;
-        if (upper > 312000) upper = 312000;
+        // Step 4: Strict ±1000 Bounds
+        let lower = Math.max(1, center_rank - 1000);
+        let upper = center_rank + 1000;
 
-        // Step 5: Goal Logic Based on KCET Marks
-        let goalString = "";
-        if (kcet > 90) {
-            goalString = "Target Ranking: <b>< 10,000</b>";
-        } else if (kcet > 70) {
-            goalString = "Target Ranking: <b>< 15,000</b>";
-        } else if (kcet > 60) {
-            goalString = "Target Ranking: <b>< 20,000</b>";
-        } else {
-            goalString = "Aim for <b>> 60 marks</b> in KCET to secure a rank below 20,000.";
+        // Step 5: Advanced Goal Calculator (Back-propagation)
+        const targets = [500, 2000, 5000, 10000, 15000, 20000];
+        let target_rank = 20000; // Default fallback
+        for (let t of targets) {
+            if (center_rank > t) {
+                target_rank = t;
+                break;
+            }
         }
 
-        // Display Output
+        // Reverse engineer the formula to find exact KCET marks needed for target_rank
+        // log(target_rank) = -0.11 * target_comp + 17.3
+        const target_comp = (17.3 - Math.log(target_rank)) / 0.11;
+        
+        // target_comp = (kcet_pct_needed + puc_pct) / 2
+        const needed_kcet_pct = (target_comp * 2) - puc_pct;
+        const needed_kcet_marks = Math.ceil((needed_kcet_pct / 100) * 180);
+        const marks_diff = needed_kcet_marks - kcet;
+
+        // Render UI
         document.getElementById('results').style.display = 'block';
         document.getElementById('rankDisplay').innerText = `${lower.toLocaleString()} - ${upper.toLocaleString()}`;
-        document.getElementById('compDisplay').innerText = `Composite Score: ${composite.toFixed(2)}/100`;
-        document.getElementById('goalText').innerHTML = goalString;
+        document.getElementById('compDisplay').innerText = `SYS.COMPOSITE: ${composite.toFixed(2)}%`;
+
+        if (marks_diff > 0 && needed_kcet_marks <= 180) {
+            document.getElementById('goalText').innerHTML = `TARGET ACQUISITION: Rank <span class="highlight">${target_rank.toLocaleString()}</span><br><br>Status: You need exactly <span class="highlight">${marks_diff} more marks</span> in KCET (Total: ${needed_kcet_marks}/180) to reach this threshold.`;
+        } else if (needed_kcet_marks > 180) {
+            document.getElementById('goalText').innerHTML = `TARGET ACQUISITION: Rank <span class="highlight">${target_rank.toLocaleString()}</span><br><br>Status: Mathematical limit reached. You would need ${needed_kcet_marks}/180 to hit this rank. Focus on maximizing current output.`;
+        } else {
+            document.getElementById('goalText').innerHTML = `STATUS: ELITE.<br>You are projecting past the <span class="highlight">${target_rank.toLocaleString()}</span> threshold. Maintain current trajectory.`;
+        }
     }
 </script>
 
 </body>
 </html>
+

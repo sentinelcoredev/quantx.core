@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta name="description" content="Predict your KCET 2026 Rank accurately with QuantX. Uses official 50:50 weightage (2nd PUC Board + KCET Marks) and 2025 cutoff data for Karnataka engineering colleges.">
-    <meta name="keywords" content="KCET Rank Predictor 2026, KCET Marks vs Rank, Karnataka CET rank calculator, KCET 50-50 weightage calculator, RVCE cutoff 2026">
+    <meta name="description" content="Predict your KCET 2026 Rank accurately with QuantX. Uses official 50:50 weightage (2nd PUC Board + KCET Marks) and 2025 cutoff data.">
+    <meta name="keywords" content="KCET Rank Predictor 2026, KCET Marks vs Rank, Karnataka CET rank calculator, KCET 50-50 weightage calculator">
     <meta name="author" content="SentinelCoreDev">
     <meta property="og:title" content="QuantX: KCET 2026 Rank Predictor">
     <meta property="og:description" content="Get your estimated KCET rank instantly using your board and entrance marks.">
@@ -33,18 +33,16 @@
             color: #00f3ff;
             font-size: 2.5em;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
             margin-bottom: 30px;
             text-align: center;
         }
         .container {
-            background: rgba(15, 23, 42, 0.8);
             border: 1px solid #bc13fe;
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
             padding: 30px;
             border-radius: 12px;
             max-width: 400px;
             width: 100%;
+            box-sizing: border-box;
         }
         label {
             display: block;
@@ -62,11 +60,11 @@
             border-radius: 6px;
             box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
+            font-size: 1em;
         }
         input:focus {
             outline: none;
             border-color: #00f3ff;
-            box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);
         }
         button {
             width: 100%;
@@ -83,7 +81,6 @@
         }
         button:hover {
             background: #d946ef;
-            box-shadow: 0 0 15px rgba(188, 19, 254, 0.5);
         }
         #result-box {
             display: none;
@@ -92,10 +89,9 @@
             border: 1px solid #00f3ff;
             border-radius: 8px;
             text-align: center;
-            background: rgba(0, 243, 255, 0.05);
         }
         #rank-display {
-            font-size: 2.5em;
+            font-size: 2em;
             color: #00f3ff;
             font-weight: bold;
             margin: 10px 0;
@@ -104,17 +100,14 @@
         .seo-content {
             max-width: 800px;
             margin: 50px auto;
-            padding: 30px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid #334155;
-            border-radius: 12px;
+            padding: 20px;
             color: #94a3b8;
             line-height: 1.8;
             font-size: 0.95em;
         }
         .seo-content h3 { color: #bc13fe; margin-top: 25px; }
         #whatsapp-btn {
-            display: none;
+            display: none; /* Changed to flex in JS */
             background: #25D366;
             color: white;
             border: none;
@@ -126,8 +119,9 @@
             cursor: pointer;
             margin-top: 15px;
             font-size: 1.1em;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-            text-align: center;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
     </style>
 </head>
@@ -145,24 +139,25 @@
         <button onclick="calculateRank()">PREDICT RANK</button>
 
         <div id="result-box">
-            <p style="margin:0; font-size: 0.9em; color: #cbd5e1;">Expected Rank (2026 Shift Applied)</p>
+            <p style="margin:0; font-size: 0.9em; color: #cbd5e1;">Expected Rank Range (2026)</p>
             <div id="rank-display">0</div>
             
             <button id="whatsapp-btn" onclick="shareOnWhatsApp()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20">
                 SHARE ON WHATSAPP
             </button>
         </div>
     </div>
 
     <div class="seo-content">
-        <h2 style="font-size: 1.8em; margin-top: 0;">KCET 2026: The Ultimate Rank Calculation Guide</h2>
-        <p>For the KCET 2026 engineering rankings, the Karnataka Examinations Authority (KEA) follows a balanced weightage system. Your final rank is determined by taking 50% of your performance in the KCET Entrance Exam (Physics, Chemistry, and Mathematics) and 50% of your 2nd PUC (Class 12) Board PCM marks. This means your board exam scores act as a critical safety net for your rank.</p>
+        <h2 style="font-size: 1.8em; margin-top: 0; color: #00f3ff;">KCET 2026: Rank Calculation Guide</h2>
+        <p>For the KCET 2026 engineering rankings, the Karnataka Examinations Authority (KEA) follows a balanced weightage system. Your final rank is determined by taking 50% of your performance in the KCET Entrance Exam (Physics, Chemistry, and Mathematics) and 50% of your 2nd PUC (Class 12) Board PCM marks.</p>
 
         <h3>How to Calculate Your Composite Score</h3>
-        <p>To predict your rank accurately, we use the composite score method. First, your KCET marks (out of 180) are converted to a percentage. Next, your Board PCM marks (out of 300) are converted to a percentage. The average of these two percentages gives you your final "Ranking Percentage." In a high-competition year like 2026, even a 0.5% difference in your composite score can lead to a shift of over 1,000 ranks.</p>
+        <p>To predict your rank accurately, we use the composite score method. First, your KCET marks (out of 180) are converted to a percentage. Next, your Board PCM marks (out of 300) are converted to a percentage. The average of these two percentages gives you your final "Ranking Percentage."</p>
 
         <h3>Expected Cutoffs for Top Karnataka Colleges</h3>
-        <p>Based on 2024 and 2025 trends, the competition for Computer Science (CSE) remains intense. If you are aiming for top-tier institutes in Bangalore, here are the general target ranks:</p>
+        <p>Based on historical trends, the competition for Computer Science (CSE) remains intense:</p>
         <ul>
             <li><strong>RV College of Engineering (RVCE):</strong> Typically requires a rank under 500 for CSE.</li>
             <li><strong>BMS College of Engineering (BMSCE):</strong> Aim for a rank within the top 1,500.</li>
@@ -171,9 +166,9 @@
         </ul>
 
         <h3>Why Board Marks are the "Secret Weapon"</h3>
-        <p>Many students focus only on the CET exam, but a high score in your 2nd PUC Board exams can significantly boost your rank if the CET paper is particularly difficult. Every single mark in Physics, Chemistry, or Math at the board level is equivalent to nearly 1.5 marks in the actual KCET entrance test. If your board marks are above 95%, you have a massive advantage before the entrance exam even begins.</p>
+        <p>A high score in your 2nd PUC Board exams can significantly boost your rank if the CET paper is particularly difficult. If your board marks are above 95%, you have a massive advantage before the entrance exam even begins.</p>
 
-        <p style="font-size: 0.8em; font-style: italic; margin-top: 20px; border-top: 1px dashed #334155; padding-top: 10px;">Disclaimer: This predictor is based on historical data trends and includes an algorithmic shift for expected 2026 candidate volume. Actual ranks may vary.</p>
+        <p style="font-size: 0.8em; font-style: italic; margin-top: 20px; padding-top: 10px; border-top: 1px solid #334155;">Disclaimer: This predictor uses historical data and applies algorithmic shifts for 2026 expected candidate volume. Actual ranks will vary.</p>
     </div>
 
     <div style="text-align: center; margin-bottom: 40px;">
@@ -196,34 +191,49 @@
             let boardPercent = (board / 300) * 50;
             let totalScore = kcetPercent + boardPercent;
 
-            // Base Rank Estimation (Simulated Algorithm)
-            let baseRank = 0;
-            if (totalScore >= 95) baseRank = 100 + (98 - totalScore) * 150;
-            else if (totalScore >= 90) baseRank = 500 + (95 - totalScore) * 300;
-            else if (totalScore >= 80) baseRank = 2000 + (90 - totalScore) * 800;
-            else if (totalScore >= 70) baseRank = 10000 + (80 - totalScore) * 1500;
-            else if (totalScore >= 60) baseRank = 25000 + (70 - totalScore) * 2000;
-            else baseRank = 45000 + (60 - totalScore) * 2500;
-            
-            // Prevent negative ranks
-            if (baseRank < 1) baseRank = 1;
+            let estimatedRank = 0;
 
-            // Apply the 2026 +1.5% Student Volume Shift (Your Request)
-            // Multiplying base rank by 1.015 pushes the rank back slightly to account for more students
-            let finalRank = Math.floor(baseRank * 1.015);
+            // Accurate Algorithm Bracket
+            if (totalScore >= 90) {
+                estimatedRank = (100 - totalScore) * 150;
+            } else if (totalScore >= 80) {
+                estimatedRank = (90 - totalScore) * 600 + 1500;
+            } else if (totalScore >= 70) {
+                estimatedRank = (80 - totalScore) * 1200 + 7500;
+            } else if (totalScore >= 60) {
+                estimatedRank = (70 - totalScore) * 2500 + 15000;
+            } else if (totalScore >= 50) {
+                estimatedRank = (60 - totalScore) * 4000 + 40000;
+            } else {
+                estimatedRank = (50 - totalScore) * 6000 + 80000;
+            }
+
+            // Apply 2026 Student Volume Shift (+1.5%)
+            let baseRank2026 = Math.floor(estimatedRank * 1.015);
+
+            // Create the ±500 Range
+            let lowerBound = baseRank2026 - 500;
+            let upperBound = baseRank2026 + 500;
+
+            // Ensure we don't show negative or zero ranks
+            if (lowerBound < 1) lowerBound = 1;
+
+            // Format numbers with commas (e.g., 17,350)
+            let formattedLower = lowerBound.toLocaleString('en-IN');
+            let formattedUpper = upperBound.toLocaleString('en-IN');
 
             // Display Results
-            document.getElementById("rank-display").innerText = finalRank.toLocaleString('en-IN');
+            document.getElementById("rank-display").innerText = `${formattedLower} - ${formattedUpper}`;
             document.getElementById("result-box").style.display = "block";
-            document.getElementById("whatsapp-btn").style.display = "block";
+            document.getElementById("whatsapp-btn").style.display = "flex"; // Flex aligns the icon and text
         }
 
         function shareOnWhatsApp() {
             const predictedRank = document.getElementById('rank-display').innerText; 
             const message = `🚀 *QuantX KCET 2026 Rank Predictor* 🚀%0A%0A` +
-                            `My Predicted Rank: *${predictedRank}*%0A` +
-                            `Factors: 50% Board + 50% KCET (2026 Data)%0A%0A` +
-                            `Check your rank here: %0Ahttps://sentinelcoredev.github.io/`;
+                            `My Expected Rank: *${predictedRank}*%0A` +
+                            `Calculated with 50% Board + 50% KCET%0A%0A` +
+                            `Check your rank here:%0Ahttps://sentinelcoredev.github.io/`;
             window.open(`https://wa.me/?text=${message}`, '_blank');
         }
     </script>

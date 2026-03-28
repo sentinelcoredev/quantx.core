@@ -223,7 +223,26 @@
             // Format numbers with commas (e.g., 17,350)
             let formattedLower = lowerBound.toLocaleString('en-IN');
             let formattedUpper = upperBound.toLocaleString('en-IN');
+                // --- TARGET 10,000 ENGINE ---
+    const motivationEl = document.getElementById("motivation-text");
+    const targetScore = 77.92; // Composite score for 10k rank
+    
+    if (totalScore < targetScore) {
+        let neededKcetPercent = targetScore - boardPercent;
+        let neededKcetMarks = (neededKcetPercent / 50) * 180;
+        let marksGap = Math.ceil(neededKcetMarks - kcet);
 
+        if (marksGap > 0) {
+            motivationEl.innerText = `💡 You are only ${marksGap} marks away in KCET from a Top 10,000 Rank!`;
+            motivationEl.style.display = "block";
+        } else {
+            motivationEl.style.display = "none";
+        }
+    } else {
+        motivationEl.innerText = "🔥 Outstanding! You are currently in the Top 10,000 bracket.";
+        motivationEl.style.display = "block";
+    }
+            
             // Display Results
             document.getElementById("rank-display").innerText = `${formattedLower} - ${formattedUpper}`;
             document.getElementById("result-box").style.display = "block";

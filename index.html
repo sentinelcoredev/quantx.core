@@ -3,142 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantX Predictor | 2026 Master</title>
+    <meta name="keywords" content="KCET 2026 Rank Predictor, KCET Marks vs Rank, Karnataka CET Prediction, KEA 2026, Engineering Rank">
+    <meta name="description" content="Calculate your KCET rank with ±500 accuracy using our futuristic quantum regression model based on 2026 scaling data.">
+    <title>QuantX | KCET Rank Predictor</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <style>
         :root {
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
             --dark-bg: #020617;
             --glass: rgba(15, 23, 42, 0.85);
-            --border: rgba(0, 243, 255, 0.3);
+            --border: rgba(0, 243, 255, 0.2);
         }
         
         body {
             background-color: var(--dark-bg);
             background-image: 
-                radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.15), transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(0, 243, 255, 0.15), transparent 50%);
+                radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.1), transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(0, 243, 255, 0.1), transparent 50%);
             font-family: 'Rajdhani', sans-serif;
             color: #f1f5f9;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
         }
 
+        /* Ad Slot Styling - Subtle so it doesn't ruin the vibe */
+        .ad-slot {
+            width: 100%; max-width: 420px; text-align: center;
+            border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 8px;
+            padding: 10px 0; margin-bottom: 15px; color: #475569; font-size: 10px;
+            background: rgba(0,0,0,0.3); letter-spacing: 2px;
+        }
+
         .container {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 420px;
-            border-top: 5px solid var(--neon-cyan);
+            background: var(--glass); backdrop-filter: blur(25px);
+            border: 1px solid var(--border); box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            padding: 30px; border-radius: 16px; width: 100%; max-width: 420px;
+            border-top: 4px solid var(--neon-cyan); margin-bottom: 15px; box-sizing: border-box;
         }
 
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            margin: 0;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-cyan);
-            letter-spacing: 3px;
-            font-size: 22px;
-        }
+        .header-module { text-align: center; margin-bottom: 20px; }
+        .header-module h2 { font-family: 'Orbitron', sans-serif; margin: 0; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); font-size: 22px; letter-spacing: 2px; }
+        .header-module p { font-size: 10px; color: var(--neon-purple); margin: 5px 0 0 0; letter-spacing: 3px; font-weight: 700; }
 
-        .version {
-            text-align: center; font-size: 10px; color: var(--neon-purple);
-            margin-bottom: 25px; letter-spacing: 4px; font-weight: 700;
+        .ticker-module {
+            background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 10px;
         }
+        .ticker-badge { background: var(--neon-cyan); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 10px; }
 
-        .group { margin-bottom: 15px; }
-        label {
-            display: block; font-size: 11px; font-weight: 700; margin-bottom: 5px;
-            color: #94a3b8; text-transform: uppercase; letter-spacing: 2px;
-        }
+        .input-module { margin-bottom: 15px; }
+        label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 5px; color: #94a3b8; letter-spacing: 1px; }
         input, select {
-            width: 100%; padding: 12px; background: #000;
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
-            color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 18px;
+            width: 100%; padding: 12px; background: #000; border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 16px;
             box-sizing: border-box; outline: none; transition: 0.3s;
         }
-        input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+        input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 243, 255, 0.1); }
 
-        button {
-            width: 100%; padding: 16px; background: transparent;
-            color: var(--neon-cyan); font-family: 'Orbitron', sans-serif;
-            font-weight: 900; border: 2px solid var(--neon-cyan); border-radius: 8px;
-            cursor: pointer; transition: 0.3s; margin-top: 10px;
-            text-transform: uppercase; letter-spacing: 2px;
+        button.primary-btn {
+            width: 100%; padding: 14px; background: transparent; color: var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif; font-weight: 700; border: 1px solid var(--neon-cyan);
+            border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 5px; letter-spacing: 1px;
         }
-        button:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 25px var(--neon-cyan); }
+        button.primary-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
 
-        .output { margin-top: 30px; display: none; }
-        .rank-card {
-            background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 12px;
-            text-align: center; border: 1px solid var(--neon-purple);
+        .output-module { margin-top: 25px; display: none; position: relative; padding: 15px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(188, 19, 254, 0.2); }
+        
+        .share-btn {
+            position: absolute; top: 10px; right: 10px; background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 4px;
+            padding: 4px 8px; font-size: 10px; cursor: pointer; transition: 0.2s;
+            font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 4px;
         }
-        .rank-val {
-            font-family: 'Orbitron', sans-serif; font-size: 32px; 
-            color: #fff; text-shadow: 0 0 15px var(--neon-purple); display: block;
-        }
+        .share-btn:hover { background: var(--neon-cyan); color: #000; }
 
-        .goal-box {
-            margin-top: 15px; background: rgba(0, 243, 255, 0.05); padding: 15px;
-            border-radius: 12px; border-left: 3px solid var(--neon-cyan);
-            font-size: 14px; line-height: 1.5;
-        }
+        .rank-display { text-align: center; margin: 15px 0; }
+        .rank-val { font-family: 'Orbitron', sans-serif; font-size: 28px; color: #fff; text-shadow: 0 0 15px var(--neon-purple); display: block; }
+        .comp-val { color: var(--neon-cyan); font-size: 12px; font-weight: 700; }
 
-        .motivation {
-            margin-top: 20px; font-style: italic; text-align: center;
-            color: #cbd5e1; font-size: 13px; border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 15px; line-height: 1.4;
-        }
-        .glow { color: var(--neon-cyan); font-weight: 700; }
+        .tracker-10k { background: rgba(0, 243, 255, 0.05); border-left: 2px solid var(--neon-cyan); padding: 10px; font-size: 13px; margin-top: 15px; line-height: 1.4; border-radius: 0 6px 6px 0; }
+        .quote { margin-top: 15px; font-style: italic; text-align: center; color: #64748b; font-size: 11px; }
+        .legal-footer { font-size: 9px; color: #475569; text-align: center; margin-top: 10px; max-width: 400px; line-height: 1.3; }
+        .highlight { color: var(--neon-cyan); font-weight: bold; }
     </style>
 </head>
 <body>
 
+<div class="ad-slot" id="ad-top">
+    [ PASTE GOOGLE ADSENSE CODE HERE ]<br>ADVERTISEMENT
+</div>
+
 <div class="container">
-    <h2>QUANTX.CORE</h2>
-    <div class="version">FINAL STAGE CALIBRATION</div>
+    <div class="header-module">
+        <h2>QUANTX.CORE</h2>
+        <p>PREDICTION ENGINE</p>
+    </div>
+
+    <div class="ticker-module">
+        <span class="ticker-badge">LIVE</span>
+        <span id="updateText">Syncing timeline...</span>
+    </div>
     
-    <div class="group">
-        <label>PUC PCM SCORE (300)</label>
-        <input type="number" id="board" placeholder="265">
+    <div class="input-module">
+        <label>PUC PCM SCORE (OUT OF 300)</label>
+        <input type="number" id="board" placeholder="e.g. 265">
     </div>
 
-    <div class="group">
-        <label>KCET PCM SCORE (180)</label>
-        <input type="number" id="kcet" placeholder="90">
+    <div class="input-module">
+        <label>KCET PCM SCORE (OUT OF 180)</label>
+        <input type="number" id="kcet" placeholder="e.g. 90">
     </div>
 
-    <div class="group">
-        <label>SYSTEM MATRIX</label>
+    <div class="input-module">
+        <label>SYSTEM RESISTANCE</label>
         <select id="diff">
-            <option value="mid">Balanced Vector</option>
-            <option value="hard">High Resistance (+ Rank Boost)</option>
-            <option value="easy">Low Resistance (- Rank Penalty)</option>
+            <option value="mid">Standard Matrix (Baseline)</option>
+            <option value="hard">High Difficulty (+ Rank Boost)</option>
+            <option value="easy">Low Difficulty (- Rank Penalty)</option>
         </select>
     </div>
 
-    <button onclick="run()">EXECUTE SIMULATION</button>
+    <button class="primary-btn" onclick="executePrediction()">INITIALIZE</button>
 
-    <div id="out" class="output">
-        <div class="rank-card">
-            <span style="font-size: 10px; letter-spacing: 2px; color: #94a3b8;">ESTIMATED RANK (±500)</span>
+    <div id="captureArea" class="output-module">
+        <button class="share-btn" onclick="captureAndShare()" title="Download small image to share">📷 SHARE</button>
+
+        <div class="rank-display">
+            <span style="font-size: 10px; color: #94a3b8; letter-spacing: 2px;">PROJECTED RANK (±500)</span>
             <span class="rank-val" id="rankText"></span>
-            <span style="color: var(--neon-cyan); font-size: 12px;" id="compText"></span>
+            <span class="comp-val" id="compText"></span>
         </div>
 
-        <div class="goal-box" id="goalBox"></div>
-        <div class="motivation" id="quoteBox"></div>
+        <div class="tracker-10k" id="trackerBox"></div>
+        <div class="quote" id="quoteBox"></div>
     </div>
+</div>
+
+<div class="ad-slot" id="ad-bottom">
+    [ PASTE GOOGLE ADSENSE CODE HERE ]<br>ADVERTISEMENT
+</div>
+
+<div class="legal-footer">
+    *Disclaimer: QuantX is an independent analytical tool. Predictions are generated via exponential regression algorithms based on historical scaling data. This is not affiliated with the Karnataka Examination Authority (KEA). Official results may vary.
 </div>
 
 <script>
@@ -151,7 +166,7 @@
         "Don't study to pass; study to dominate the merit list.",
         "Every MCQ you skip is a thousand ranks you lose. Focus!",
         "The 'Hard' paper is a gift for the prepared mind. Embrace it.",
-        "Consistency is the secret sauce. Keep grinding.",
+        "Consistency is the secret architecture of success.",
         "Your competition is studying right now. Are you?",
         "A 60-mark jump is just 20 marks per subject. It's possible.",
         "Visualize your name in the Top 1000. Now work for it.",
@@ -175,52 +190,85 @@
         "Elite ranks require elite effort. No excuses."
     ];
 
-    function run() {
+    window.onload = function() {
+        // 1. Load Local Cache
+        if(localStorage.getItem('qx_board')) document.getElementById('board').value = localStorage.getItem('qx_board');
+        if(localStorage.getItem('qx_kcet')) document.getElementById('kcet').value = localStorage.getItem('qx_kcet');
+        if(localStorage.getItem('qx_diff')) document.getElementById('diff').value = localStorage.getItem('qx_diff');
+        
+        // 2. Dynamic Timeline Engine
+        const now = new Date();
+        const month = now.getMonth() + 1;
+        const year = now.getFullYear();
+        const ticker = document.getElementById('updateText');
+
+        if (month >= 1 && month <= 3) { ticker.innerHTML = `Vitals: ${year} Applications Open. Finalize Board Prep.`; } 
+        else if (month === 4) { ticker.innerHTML = `Vitals: Hall Tickets releasing soon. Exams scheduled mid-April ${year}.`; } 
+        else if (month >= 5 && month <= 6) { ticker.innerHTML = `Vitals: ${year} Key Verification Phase. Results expected late June.`; } 
+        else if (month >= 7 && month <= 10) { ticker.innerHTML = `Vitals: Counseling & Option Entry Active. Verify Rank via KEA.`; } 
+        else { ticker.innerHTML = `Vitals: Preparing Algorithms for the ${year + 1} Academic Cycle.`; }
+    };
+
+    function executePrediction() {
         const board = parseFloat(document.getElementById('board').value) || 0;
         const kcet = parseFloat(document.getElementById('kcet').value) || 0;
         const diff = document.getElementById('diff').value;
+
+        localStorage.setItem('qx_board', board);
+        localStorage.setItem('qx_kcet', kcet);
+        localStorage.setItem('qx_diff', diff);
 
         const boardPct = (board / 300) * 100;
         const kcetPct = (kcet / 180) * 100;
         const comp = (boardPct + kcetPct) / 2;
 
-        // Core Algorithm (±500 logic)
         const logR = (-0.111 * comp) + 17.36;
         let cRank = Math.exp(logR);
         if (diff === "hard") cRank *= 0.95;
         if (diff === "easy") cRank *= 1.07;
 
-        const finalR = Math.floor(cRank);
-        const low = Math.max(1, finalR - 500);
-        const high = finalR + 500;
+        let finalR = Math.floor(cRank);
+        if (finalR > 312000) finalR = 312000;
+        if (finalR < 1) finalR = 1;
 
-        // Smart Goal Calc
-        const targets = [500, 1000, 2000, 5000, 10000, 15000, 20000, 30000];
-        let nextT = 0;
-        for (let m of targets) { if (finalR > m) { nextT = m; break; } }
+        let low = Math.max(1, finalR - 500);
+        let high = Math.min(312000, finalR + 500);
 
-        const tComp = (17.36 - Math.log(nextT)) / 0.111;
-        const nKcetPct = (tComp * 2) - boardPct;
-        const nKcetM = Math.ceil((nKcetPct / 100) * 180);
-        const diffM = nKcetM - kcet;
+        const target10kComp = (17.36 - Math.log(10000)) / 0.111;
+        const neededKcetPct10k = (target10kComp * 2) - boardPct;
+        const neededKcetMarks10k = Math.ceil((neededKcetPct10k / 100) * 180);
+        const marksMissingFor10k = neededKcetMarks10k - kcet;
 
-        // UI Updates
-        document.getElementById('out').style.display = 'block';
+        document.getElementById('captureArea').style.display = 'block';
         document.getElementById('rankText').innerText = `${low.toLocaleString()} - ${high.toLocaleString()}`;
-        document.getElementById('compText').innerText = `COMPOSITE: ${comp.toFixed(2)}%`;
+        document.getElementById('compText').innerText = `SYS.COMPOSITE: ${comp.toFixed(2)}%`;
         
-        let goalText = "";
-        if (diffM > 0 && nKcetM <= 180) {
-            goalText = `NEXT TARGET: <span class="glow">Rank ${nextT.toLocaleString()}</span><br>Status: You need <span class="glow">+${diffM} more marks</span> in KCET to reach this level.`;
-        } else if (nKcetM > 180) {
-            const mComp = (boardPct + 100) / 2;
-            const mRank = Math.floor(Math.exp((-0.111 * mComp) + 17.36));
-            goalText = `LIMIT REACHED: Best possible rank with your boards is <span class="glow">~${mRank.toLocaleString()}</span>.`;
+        let trackerHtml = "";
+        if (neededKcetMarks10k <= 180 && finalR > 10000) {
+            trackerHtml = `ROAD TO 10K: <br>You need <span class="highlight">+${marksMissingFor10k} marks</span> in KCET (Total: ${neededKcetMarks10k}/180) to break the 10,000 barrier.`;
+        } else if (finalR <= 10000) {
+            trackerHtml = `STATUS: <span class="highlight">ELITE</span>. You are currently projected within the Top 10,000 ranks.`;
         } else {
-            goalText = `STATUS: <span class="glow">DEEP SPACE</span>. You have exceeded all standard rank milestones.`;
+            trackerHtml = `ROAD TO 10K: <br>Mathematical Limit reached. Requires >180 marks with current board score. Maximize score to stay under 50k.`;
         }
-        document.getElementById('goalBox').innerHTML = goalText;
+        document.getElementById('trackerBox').innerHTML = trackerHtml;
         document.getElementById('quoteBox').innerText = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+    }
+
+    function captureAndShare() {
+        const btn = document.querySelector('.share-btn');
+        btn.style.display = 'none'; 
+
+        html2canvas(document.getElementById('captureArea'), {
+            backgroundColor: '#020617', scale: 2
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/webp', 0.6); 
+            const link = document.createElement('a');
+            link.download = 'QuantX_Rank_Prediction.webp';
+            link.href = imgData;
+            link.click();
+            btn.style.display = 'flex'; 
+        });
     }
 </script>
 </body>

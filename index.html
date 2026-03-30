@@ -346,6 +346,16 @@
         background: linear-gradient(135deg, #60a5fa, #3b82f6);
     }
 </style>
+<script>
+    // This looks for your 'Calculate' button. 
+    // Make sure your button has id="calculate-btn" or change the selector below!
+    document.querySelector('button').addEventListener('click', function() {
+        setTimeout(() => {
+            const nudge = document.getElementById("scroll-nudge");
+            if(nudge) nudge.style.display = "block";
+        }, 500); // Shows up half a second after clicking
+    });
+</script>
     
 </body>
 </html>

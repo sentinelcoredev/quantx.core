@@ -81,13 +81,19 @@
             border: 1px solid var(--border-color);
             margin-bottom: 24px;
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr; /* Mobile default */
             gap: 15px;
         }
 
         @media (min-width: 600px) {
             .filter-section {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 800px) {
+            .filter-section {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
@@ -110,7 +116,7 @@
             color: var(--text-main);
             padding: 12px;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
             transition: border-color 0.3s;
             appearance: none;
@@ -181,6 +187,7 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-main);
+            padding-right: 10px;
         }
 
         .cutoff-badge {
@@ -191,7 +198,6 @@
             font-size: 0.9rem;
             font-weight: 700;
             white-space: nowrap;
-            margin-left: 10px;
         }
 
         .college-details {
@@ -205,6 +211,16 @@
         .detail-row span {
             color: var(--text-main);
             font-weight: 500;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background-color: var(--border-color);
+            color: var(--text-main);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 6px;
         }
 
         .no-results {
@@ -229,26 +245,40 @@
 
     <div class="filter-section">
         <div class="input-group">
-            <label for="rankInput">Your Predicted Rank</label>
-            <input type="number" id="rankInput" placeholder="e.g. 1500" min="1">
+            <label for="rankInput">Predicted Rank</label>
+            <input type="number" id="rankInput" placeholder="e.g. 3500" min="1">
         </div>
+        
+        <div class="input-group">
+            <label for="categoryFilter">Category</label>
+            <select id="categoryFilter">
+                <option value="ALL">All Categories</option>
+                <option value="1G">1G (General / GM)</option>
+                <option value="2AG">2AG (OBC)</option>
+            </select>
+        </div>
+
         <div class="input-group">
             <label for="branchFilter">Branch</label>
             <select id="branchFilter">
                 <option value="ALL">All Branches</option>
                 <option value="CS">Computer Science (CSE)</option>
+                <option value="AI">AI / ML / Data Science</option>
                 <option value="IS">Information Science (ISE)</option>
                 <option value="EC">Electronics & Comm (ECE)</option>
                 <option value="EE">Electrical (EEE)</option>
-                <option value="AI">AI / ML / Cyber</option>
+                <option value="ME">Mechanical</option>
+                <option value="CV">Civil</option>
+                <option value="OTHER">Other Branches</option>
             </select>
         </div>
+        
         <div class="input-group">
             <label for="cityFilter">City</label>
             <select id="cityFilter">
                 <option value="ALL">All Cities</option>
                 <option value="Bangalore">Bangalore</option>
-                </select>
+            </select>
         </div>
     </div>
 
@@ -266,55 +296,86 @@
 </div>
 
 <script>
-    /* MODULAR DATA SYSTEM
-      Simply copy/paste new objects into this array to expand your database. 
-      The UI will automatically adapt.
-    */
+    // Merged Database: Old Data (GM converted to 1G) + New MSRIT Screenshot Data
     const collegeDatabase = [
-        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 446 },
-        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "AI", branchName: "AI & MACHINE LEARNING", category: "GM", cutoff: 676 },
-        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE (CYBER SECURITY)", category: "GM", cutoff: 833 },
-        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "GM", cutoff: 914 },
-        { code: "E009", name: "PES University", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 1375.5 },
-        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 1687 },
-        { code: "E003", name: "B M S College of Engineering", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "GM", cutoff: 1893 },
-        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING", category: "GM", cutoff: 2756 },
-        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "GM", cutoff: 3083 },
-        { code: "E009", name: "PES University", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS & COMMUNICATION ENGINEERING", category: "GM", cutoff: 3339.5 },
-        { code: "E001", name: "UVCE", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 4732 },
-        { code: "E001", name: "UVCE", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "GM", cutoff: 6502 },
-        { code: "E003", name: "B M S College of Engineering", location: "Bangalore", branchCode: "EE", branchName: "ELECTRICAL & ELECTRONICS ENGINEERING", category: "GM", cutoff: 6886.5 }
+        // --- PREVIOUS COLLEGES ---
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "1G", cutoff: 446 },
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "AI", branchName: "AI & MACHINE LEARNING", category: "1G", cutoff: 676 },
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE (CYBER SECURITY)", category: "1G", cutoff: 833 },
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "1G", cutoff: 914 },
+        { code: "E009", name: "PES University", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "1G", cutoff: 1375.5 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "1G", cutoff: 1687 },
+        { code: "E003", name: "B M S College of Engineering", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "1G", cutoff: 1893 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING", category: "1G", cutoff: 2756 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "1G", cutoff: 3083 },
+        { code: "E009", name: "PES University", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS & COMMUNICATION ENGINEERING", category: "1G", cutoff: 3339.5 },
+        { code: "E001", name: "UVCE", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "1G", cutoff: 4732 },
+        { code: "E001", name: "UVCE", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "1G", cutoff: 6502 },
+        { code: "E003", name: "B M S College of Engineering", location: "Bangalore", branchCode: "EE", branchName: "ELECTRICAL & ELECTRONICS ENGINEERING", category: "1G", cutoff: 6886.5 },
+        
+        // --- NEW MSRIT DATA (Extracted from Screenshot) ---
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "AERO SPACE ENGINEERING", category: "1G", cutoff: 13846 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "AERO SPACE ENGINEERING", category: "2AG", cutoff: 15667 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE", category: "1G", cutoff: 5619 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE", category: "2AG", cutoff: 5749 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING", category: "1G", cutoff: 3626 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING", category: "2AG", cutoff: 4876 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "BIO-TECHNOLOGY", category: "1G", cutoff: 21754 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "BIO-TECHNOLOGY", category: "2AG", cutoff: 24875 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "CHEMICAL ENGINEERING", category: "1G", cutoff: 44238 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "CHEMICAL ENGINEERING", category: "2AG", cutoff: 45293.5 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CV", branchName: "CIVIL ENGINEERING", category: "1G", cutoff: 46738 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CV", branchName: "CIVIL ENGINEERING", category: "2AG", cutoff: 51878 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE AND ENGG(AI AND ML)", category: "1G", cutoff: 4494 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE AND ENGG(AI AND ML)", category: "2AG", cutoff: 4363 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "1G", cutoff: 3478 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "2AG", cutoff: 3676 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE AND ENGINEERING (CYBER SECURITY)", category: "1G", cutoff: 5520 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE AND ENGINEERING (CYBER SECURITY)", category: "2AG", cutoff: 5259 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EE", branchName: "ELECTRICAL & ELECTRONICS ENGINEERING", category: "2AG", cutoff: 15433 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "1G", cutoff: 7168 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "2AG", cutoff: 7617.5 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND INSTRUMENTATION ENGINEERING", category: "1G", cutoff: 17235 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND INSTRUMENTATION ENGINEERING", category: "2AG", cutoff: 27025 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND TELECOMMUNICATION ENGINEERING", category: "1G", cutoff: 10856 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND TELECOMMUNICATION ENGINEERING", category: "2AG", cutoff: 17928 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "INDUSTRIAL ENGINEERING & MANAGEMENT", category: "2AG", cutoff: 58697 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "1G", cutoff: 4763 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "2AG", cutoff: 4481 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "ME", branchName: "MECHANICAL ENGINEERING", category: "1G", cutoff: 34496 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "ME", branchName: "MECHANICAL ENGINEERING", category: "2AG", cutoff: 33207 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "MEDICAL ELECTRONICS ENGINEERING", category: "1G", cutoff: 68537 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "OTHER", branchName: "MEDICAL ELECTRONICS ENGINEERING", category: "2AG", cutoff: 44866 }
     ];
 
     // DOM Elements
     const rankInput = document.getElementById('rankInput');
     const branchFilter = document.getElementById('branchFilter');
+    const categoryFilter = document.getElementById('categoryFilter'); // New element
     const cityFilter = document.getElementById('cityFilter');
     const collegeGrid = document.getElementById('collegeGrid');
     const resultCount = document.getElementById('resultCount');
 
-    // Grouping Branch Codes for simpler UI filtering
-    // Note: I mapped AIML/Cyber to 'AI' and ECE to 'EC' in the database object to make dropdown filtering easier.
-    
     function renderColleges() {
         const userRank = parseInt(rankInput.value) || 0;
         const selectedBranch = branchFilter.value;
+        const selectedCategory = categoryFilter.value;
         const selectedCity = cityFilter.value;
 
         // Clear current grid
         collegeGrid.innerHTML = '';
 
-        // Filter Logic
+        // Filter Logic (Now includes Category)
         const filteredData = collegeDatabase.filter(college => {
-            // Eligibility logic: Your rank must be lower than or equal to the cutoff rank
             const matchesRank = userRank === 0 || userRank <= college.cutoff;
             const matchesBranch = selectedBranch === 'ALL' || college.branchCode === selectedBranch;
+            const matchesCategory = selectedCategory === 'ALL' || college.category === selectedCategory;
             const matchesCity = selectedCity === 'ALL' || college.location === selectedCity;
 
-            return matchesRank && matchesBranch && matchesCity;
+            return matchesRank && matchesBranch && matchesCategory && matchesCity;
         });
 
-        // Sort by cutoff rank (hardest to get into first)
+        // Sort by cutoff rank
         filteredData.sort((a, b) => a.cutoff - b.cutoff);
 
         // Update Count
@@ -340,10 +401,11 @@
                     <div class="cutoff-badge">Rank: ${Math.floor(college.cutoff)}</div>
                 </div>
                 <div class="college-details">
-                    <div class="detail-row">Code: <span>${college.code}</span></div>
                     <div class="detail-row">Branch: <span>${college.branchName}</span></div>
+                    <div class="detail-row">
+                        Category: <span class="category-tag">${college.category}</span>
+                    </div>
                     <div class="detail-row">City: <span>${college.location}</span></div>
-                    <div class="detail-row">Category: <span>${college.category}</span></div>
                 </div>
             `;
             collegeGrid.appendChild(card);
@@ -353,6 +415,7 @@
     // Event Listeners for Real-Time Updating
     rankInput.addEventListener('input', renderColleges);
     branchFilter.addEventListener('change', renderColleges);
+    categoryFilter.addEventListener('change', renderColleges); // Listener for new dropdown
     cityFilter.addEventListener('change', renderColleges);
 
     // Initial Render
@@ -360,5 +423,4 @@
 </script>
 
 </body>
-  </html>
-
+</html>

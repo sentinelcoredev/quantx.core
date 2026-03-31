@@ -458,6 +458,33 @@
     // Initial Render
     renderColleges();
 </script>
+<script>
+    (function() {
+        const backBtn = document.createElement('a');
+        backBtn.href = 'index.html';
+        backBtn.innerHTML = '← BACK TO PREDICTOR';
+        
+        // Mobile-friendly floating styles
+        Object.assign(backBtn.style, {
+            position: 'fixed',
+            bottom: '20px',
+            left: '20px',
+            backgroundColor: '#60a5fa',
+            color: '#0f172a',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            fontWeight: '700',
+            fontSize: '0.85rem',
+            textDecoration: 'none',
+            zIndex: '9999',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
+            border: '2px solid #0f172a',
+            letterSpacing: '0.5px'
+        });
 
+        document.body.appendChild(backBtn);
+    })();
+</script>
+    
 </body>
 </html>

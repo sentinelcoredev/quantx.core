@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantX | Predict My College 2026</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6569106297491752" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary-blue: #60a5fa;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --hover-blue: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header / Nav */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        header h1 {
+            color: var(--primary-blue);
+            font-size: 2rem;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Search & Filter Section */
+        .filter-section {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .filter-section {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            appearance: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-blue);
+        }
+
+        /* AdSense Container */
+        .adsense-container {
+            width: 100%;
+            min-height: 100px;
+            background-color: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Results Grid */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+
+        .results-count {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .college-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .college-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .college-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .college-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .college-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .cutoff-badge {
+            background-color: rgba(96, 165, 250, 0.1);
+            color: var(--primary-blue);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .college-details {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-row span {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="back-link">← Back to Rank Predictor</a>
+    
+    <header>
+        <h1>QUANTX.COLLEGES</h1>
+        <p>Based on projected KCET 2026 Volume Shifts</p>
+    </header>
+
+    <div class="filter-section">
+        <div class="input-group">
+            <label for="rankInput">Your Predicted Rank</label>
+            <input type="number" id="rankInput" placeholder="e.g. 1500" min="1">
+        </div>
+        <div class="input-group">
+            <label for="branchFilter">Branch</label>
+            <select id="branchFilter">
+                <option value="ALL">All Branches</option>
+                <option value="CS">Computer Science (CSE)</option>
+                <option value="IS">Information Science (ISE)</option>
+                <option value="EC">Electronics & Comm (ECE)</option>
+                <option value="EE">Electrical (EEE)</option>
+                <option value="AI">AI / ML / Cyber</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="cityFilter">City</label>
+            <select id="cityFilter">
+                <option value="ALL">All Cities</option>
+                <option value="Bangalore">Bangalore</option>
+                </select>
+        </div>
+    </div>
+
+    <div class="adsense-container">
+        <p>AdSense In-Feed Ad Placeholder<br><span style="font-size: 0.75rem;">(Ads will render here natively)</span></p>
+    </div>
+
+    <div class="results-header">
+        <h2>Eligible Options</h2>
+        <span class="results-count" id="resultCount">0 Found</span>
+    </div>
+
+    <div class="college-grid" id="collegeGrid">
+        </div>
+</div>
+
+<script>
+    /* MODULAR DATA SYSTEM
+      Simply copy/paste new objects into this array to expand your database. 
+      The UI will automatically adapt.
+    */
+    const collegeDatabase = [
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 446 },
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "AI", branchName: "AI & MACHINE LEARNING", category: "GM", cutoff: 676 },
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "AI", branchName: "COMPUTER SCIENCE (CYBER SECURITY)", category: "GM", cutoff: 833 },
+        { code: "E005", name: "R. V. College of Engineering", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "GM", cutoff: 914 },
+        { code: "E009", name: "PES University", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 1375.5 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 1687 },
+        { code: "E003", name: "B M S College of Engineering", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS AND COMMUNICATION ENGG", category: "GM", cutoff: 1893 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "AI", branchName: "ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING", category: "GM", cutoff: 2756 },
+        { code: "E006", name: "M S Ramaiah Institute of Technology", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "GM", cutoff: 3083 },
+        { code: "E009", name: "PES University", location: "Bangalore", branchCode: "EC", branchName: "ELECTRONICS & COMMUNICATION ENGINEERING", category: "GM", cutoff: 3339.5 },
+        { code: "E001", name: "UVCE", location: "Bangalore", branchCode: "CS", branchName: "COMPUTER SCIENCE AND ENGINEERING", category: "GM", cutoff: 4732 },
+        { code: "E001", name: "UVCE", location: "Bangalore", branchCode: "IS", branchName: "INFORMATION SCIENCE AND ENGINEERING", category: "GM", cutoff: 6502 },
+        { code: "E003", name: "B M S College of Engineering", location: "Bangalore", branchCode: "EE", branchName: "ELECTRICAL & ELECTRONICS ENGINEERING", category: "GM", cutoff: 6886.5 }
+    ];
+
+    // DOM Elements
+    const rankInput = document.getElementById('rankInput');
+    const branchFilter = document.getElementById('branchFilter');
+    const cityFilter = document.getElementById('cityFilter');
+    const collegeGrid = document.getElementById('collegeGrid');
+    const resultCount = document.getElementById('resultCount');
+
+    // Grouping Branch Codes for simpler UI filtering
+    // Note: I mapped AIML/Cyber to 'AI' and ECE to 'EC' in the database object to make dropdown filtering easier.
+    
+    function renderColleges() {
+        const userRank = parseInt(rankInput.value) || 0;
+        const selectedBranch = branchFilter.value;
+        const selectedCity = cityFilter.value;
+
+        // Clear current grid
+        collegeGrid.innerHTML = '';
+
+        // Filter Logic
+        const filteredData = collegeDatabase.filter(college => {
+            // Eligibility logic: Your rank must be lower than or equal to the cutoff rank
+            const matchesRank = userRank === 0 || userRank <= college.cutoff;
+            const matchesBranch = selectedBranch === 'ALL' || college.branchCode === selectedBranch;
+            const matchesCity = selectedCity === 'ALL' || college.location === selectedCity;
+
+            return matchesRank && matchesBranch && matchesCity;
+        });
+
+        // Sort by cutoff rank (hardest to get into first)
+        filteredData.sort((a, b) => a.cutoff - b.cutoff);
+
+        // Update Count
+        resultCount.textContent = `${filteredData.length} Found`;
+
+        // Render Cards
+        if (filteredData.length === 0) {
+            collegeGrid.innerHTML = `
+                <div class="no-results">
+                    <h3>No colleges found.</h3>
+                    <p style="margin-top: 8px;">Try adjusting your rank or changing the filters.</p>
+                </div>`;
+            return;
+        }
+
+        filteredData.forEach(college => {
+            const card = document.createElement('div');
+            card.className = 'college-card';
+            
+            card.innerHTML = `
+                <div class="college-header">
+                    <div class="college-name">${college.name}</div>
+                    <div class="cutoff-badge">Rank: ${Math.floor(college.cutoff)}</div>
+                </div>
+                <div class="college-details">
+                    <div class="detail-row">Code: <span>${college.code}</span></div>
+                    <div class="detail-row">Branch: <span>${college.branchName}</span></div>
+                    <div class="detail-row">City: <span>${college.location}</span></div>
+                    <div class="detail-row">Category: <span>${college.category}</span></div>
+                </div>
+            `;
+            collegeGrid.appendChild(card);
+        });
+    }
+
+    // Event Listeners for Real-Time Updating
+    rankInput.addEventListener('input', renderColleges);
+    branchFilter.addEventListener('change', renderColleges);
+    cityFilter.addEventListener('change', renderColleges);
+
+    // Initial Render
+    renderColleges();
+</script>
+
+</body>
+  </html>
+

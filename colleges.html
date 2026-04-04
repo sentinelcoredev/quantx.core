@@ -525,6 +525,42 @@
         document.body.appendChild(backBtn);
     })();
 </script>
+ <script>
+(function() {
+    const backBtn = document.createElement('a');
+    // Forces the browser to look for index.html in the current folder
+    backBtn.href = './index.html'; 
+    backBtn.innerHTML = '← BACK TO PREDICTOR';
+
+    // Futuristic Dark UI Styles
+    Object.assign(backBtn.style, {
+        position: 'fixed',
+        bottom: '20px',
+        left: '20px',
+        backgroundColor: '#0ea5e9', // Cyber Blue
+        color: '#000',
+        padding: '12px 20px',
+        borderRadius: '12px',
+        fontWeight: '700',
+        fontSize: '0.8rem',
+        textDecoration: 'none',
+        fontFamily: "'Space Grotesk', sans-serif",
+        letterSpacing: '1px',
+        zIndex: '10000',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.5)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer'
+    });
+
+    // Add a hover effect for mobile touch
+    backBtn.ontouchstart = () => backBtn.style.transform = 'scale(0.95)';
+    backBtn.ontouchend = () => backBtn.style.transform = 'scale(1)';
+
+    document.body.appendChild(backBtn);
+})();
+ </script>
     
 </body>
 </html>

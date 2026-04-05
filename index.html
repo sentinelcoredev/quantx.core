@@ -469,66 +469,46 @@
 })();
 </script>
     <div id="admin-trigger" style="
-        position: fixed; 
-        bottom: 10px; 
-        right: 10px; 
-        opacity: 0.5; 
-        cursor: pointer; 
-        user-select: none; 
-        z-index: 10000;
-        font-family: serif;
-  
-        font-size: 18px;
- 
-        color: #00e5ff;">א</div>
-    <script>
-  
-        (function() {
-    
-            let apiCount = 0;
-    
-            const offset = 120; // Your starting number
-    
-            const namespace = "quantx_core_v2"; 
-    
-            const key = "visits";
+  position: fixed; 
+  bottom: 85px; /* Positioned above the WhatsApp button */
+  right: 20px; 
+  opacity: 0.5; 
+  cursor: pointer; 
+  user-select: none; 
+  z-index: 10001;
+  font-family: serif;
+  font-size: 22px;
+  color: #00e5ff;">א</div>
 
-    // 1. Increment the count
-    
-            fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/increment`)
-      
-                .then(response => response.json())
-      
-                .then(data => {
-        
-                    apiCount = data.count;
-      
-                })
-      
-                .catch(err => console.error("Counter Error:", err));
+<script>
+  (function() {
+    let apiCount = 0;
+    const offset = 120; 
+    const namespace = "quantx_core_official"; // New unique ID
+    const key = "main_counter";
+
+    // 1. Fetch and increment immediately
+    fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/increment`)
+      .then(res => res.json())
+      .then(data => {
+        if(data && data.count) apiCount = data.count;
+      })
+      .catch(() => { apiCount = 0; });
 
     // 2. Password Logic
+    const trigger = document.getElementById('admin-trigger');
+    trigger.addEventListener('click', function() {
+      const password = prompt("Access Key Required:");
+      
+      if (password === "*") {
+        // If API hasn't loaded yet, it will just show the offset
+        const displayCount = (apiCount || 0) + offset;
+        alert("Total Site Visits: " + displayCount);
+      }
+    });
+  })();
+</script>
     
-            const trigger = document.getElementById('admin-trigger');
-
-            trigger.addEventListener('click', function() {
-      
-                const password = prompt("Access Key Required:");
-      
-      
-                if (password === "*") {
-        // Adds your 120 offset to the real count
-        
-                    const totalVisits = apiCount + offset;
-        
-                    alert("Total Site Visits: " + totalVisits);
-      
-                }
-    
-            });
-  
-        })();
-    </script>
     
 </body>
 </html>

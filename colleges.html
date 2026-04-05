@@ -671,6 +671,62 @@
     document.body.appendChild(backBtn);
 })();
  </script>
+<script>
+(function() {
+    // 1. CONFIGURATION
+    const START_OFFSET = 120;
+    const SECRET_CODE = ':|∆|';
+    const API_NAMESPACE = 'quantx_core_v1'; // Change this if you want to reset to 0+120
+    const API_KEY = 'global_hits';
+
+    // 2. CREATE THE ALEPH SYMBOL (א)
+    const alephTrigger = document.createElement('div');
+    alephTrigger.innerHTML = '&#8501;'; 
     
+    Object.assign(alephTrigger.style, {
+        position: 'fixed',
+        bottom: '85px',
+        right: '25px',
+        fontSize: '22px',
+        color: 'rgba(56, 189, 248, 0.3)', // Very subtle so only you know it's there
+        cursor: 'pointer',
+        fontFamily: 'serif',
+        zIndex: '10001',
+        userSelect: 'none',
+        transition: 'all 0.3s'
+    });
+
+    // 3. THE RECORDING LOGIC (Runs on every page load)
+    // This sends a "Hit" to the global database
+    fetch(`https://api.countapi.xyz/hit/${API_NAMESPACE}/${API_KEY}`)
+        .catch(() => console.log("Counter offline"));
+
+    // 4. THE ACCESS LOGIC
+    alephTrigger.onclick = function() {
+        const input = prompt("QUANTX.CORE // SECURITY CLEARANCE REQUIRED:");
+        
+        if (input === SECRET_CODE) {
+            // Fetch the current total without incrementing it again
+            fetch(`https://api.countapi.xyz/get/${API_NAMESPACE}/${API_KEY}`)
+                .then(res => res.json())
+                .then(data => {
+                    // THE MATH: API Result + Your 120 starting point
+                    const totalVisits = data.value + START_OFFSET;
+                    alert(`SYSTEM METRICS:\n--------------------\nTOTAL GLOBAL QUERIES: ${totalVisits}\nSTATUS: OPERATIONAL`);
+                })
+                .catch(() => alert("Error: Could not retrieve data from the void."));
+        } else if (input !== null) {
+            alert("ACCESS DENIED: INVALID KEY.");
+        }
+    };
+
+    // UI Polish: Glow when you hover over the secret spot
+    alephTrigger.onmouseover = () => alephTrigger.style.color = '#38bdf8';
+    alephTrigger.onmouseout = () => alephTrigger.style.color = 'rgba(56, 189, 248, 0.3)';
+
+    document.body.appendChild(alephTrigger);
+})();
+</script>
+   
 </body>
 </html>

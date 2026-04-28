@@ -1,56 +1,372 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>QuantX Core</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-    nav {
-      display: flex;
-      background: #111;
-      padding: 10px;
-    }
-    nav button {
-      color: white;
-      background: none;
-      border: none;
-      margin-right: 15px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    iframe {
-      width: 100%;
-      height: 90vh;
-      border: none;
-    }
-  </style>
-</head>
-<body>
+import { useState, useEffect, useRef } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 
-<nav>
-  <button onclick="loadPage('eq')">EQ Tracker</button>
-  <button onclick="loadPage('kcet')">KCET Tracker</button>
-</nav>
+const STORAGE_KEY = "quantx-eq-data";
 
-<iframe id="viewer" src=""></iframe>
+const tips = [
+  { icon: "🎯", title: "Clarity Over Guessing", desc: "Stop relying on feelings — use actual data to drive decisions." },
+  { icon: "⚙️", title: "Consistency Engine", desc: "Daily tracking builds discipline automatically over time." },
+  { icon: "🌐", title: "Applies Beyond Studies", desc: "Works for coding, gym, business, habits, or any skill." },
+  { icon: "📈", title: "Motivation Through Progress", desc: "Seeing growth visually pushes you to keep going." },
+  { icon: "🔍", title: "Pattern Recognition", desc: "Identify when and how you perform best across the week." },
+  { icon: "⏱️", title: "Time Awareness", desc: "Forces accountability for how you truly spend each day." },
+  { icon: "🔄", title: "Feedback Loop", desc: "Track → Analyze → Improve → Repeat. Endlessly." },
+  { icon: "🧠", title: "Better Decision Making", desc: "Adjust strategies based on real data, not gut feelings." },
+  { icon: "🚀", title: "Long-Term Growth", desc: "Small daily improvements compound into massive results." },
+  { icon: "🌍", title: "Universal System", desc: "Use for academics, freelancing, startups, or personal growth." },
+];
 
-<script>
-  function loadPage(type) {
-    const viewer = document.getElementById('viewer');
+function StatBox({ label, value, color = "#a78bfa" }) {
+  return (
+    <div style={{
+      flex: 1,
+      minWidth: 120,
+      background: "rgba(255,255,255,0.04)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      borderRadius: 16,
+      padding: "20px 16px",
+      textAlign: "center",
+    }}>
+      <p style={{ margin: 0, fontSize: 12, color: "#94a3b8", letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "'Space Mono', monospace" }}>{label}</p>
+      <h3 style={{ margin: "10px 0 0", fontSize: 28, fontFamily: "'Space Mono', monospace", color, fontWeight: 700 }}>{value}</h3>
+    </div>
+  );
+}
 
-    if (type === 'eq') {
-      viewer.src = "https://sentinelcoredev.github.io/EQ-tracker/";
-    } else if (type === 'kcet') {
-      viewer.src = "https://sentinelcoredev.github.io/kcet-tracker/";
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div style={{
+        background: "#0f172a",
+        border: "1px solid rgba(167,139,250,0.3)",
+        borderRadius: 10,
+        padding: "10px 16px",
+        fontFamily: "'Space Mono', monospace",
+        fontSize: 13,
+      }}>
+        <p style={{ margin: 0, color: "#94a3b8" }}>{label}</p>
+        <p style={{ margin: "4px 0 0", color: "#a78bfa" }}>Score: <strong>{payload[0].value}%</strong></p>
+        {payload[1] && <p style={{ margin: "2px 0 0", color: "#34d399" }}>Hours: <strong>{payload[1].value}h</strong></p>}
+      </div>
+    );
+  }
+  return null;
+};
+
+export default function App() {
+  const [entries, setEntries] = useState([]);
+  const [date, setDate] = useState("");
+  const [hours, setHours] = useState("");
+  const [score, setScore] = useState("");
+  const [error, setError] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const [flashRow, setFlashRow] = useState(null);
+
+  // Load from storage
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await window.storage.get(STORAGE_KEY);
+        if (result && result.value) {
+          setEntries(JSON.parse(result.value));
+        }
+      } catch (_) {}
+      setLoaded(true);
+    })();
+  }, []);
+
+  // Save to storage whenever entries change
+  useEffect(() => {
+    if (!loaded) return;
+    (async () => {
+      try {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(entries));
+      } catch (_) {}
+    })();
+  }, [entries, loaded]);
+
+  function addEntry() {
+    if (!date || isNaN(parseFloat(hours)) || isNaN(parseFloat(score))) {
+      setError("Please fill in all fields with valid values.");
+      return;
     }
+    if (parseFloat(score) < 0 || parseFloat(score) > 100) {
+      setError("Score must be between 0 and 100.");
+      return;
+    }
+    if (parseFloat(hours) < 0) {
+      setError("Hours must be a positive number.");
+      return;
+    }
+    setError("");
+    const newEntry = { date, hours: parseFloat(hours), score: parseFloat(score) };
+    setEntries(prev => [...prev, newEntry].sort((a, b) => a.date.localeCompare(b.date)));
+    setFlashRow(date);
+    setDate("");
+    setHours("");
+    setScore("");
+    setTimeout(() => setFlashRow(null), 1200);
   }
 
-  // default load
-  loadPage('eq');
-</script>
+  function deleteEntry(idx) {
+    setEntries(prev => prev.filter((_, i) => i !== idx));
+  }
 
-</body>
-</html>
+  const totalDays = entries.length;
+  const avgScore = totalDays ? (entries.reduce((s, e) => s + e.score, 0) / totalDays).toFixed(1) : "0";
+  const totalHours = entries.reduce((s, e) => s + e.hours, 0).toFixed(1);
+  const bestScore = totalDays ? Math.max(...entries.map(e => e.score)) : 0;
+
+  const chartData = entries.map(e => ({ date: e.date.slice(5), score: e.score, hours: e.hours }));
+
+  const scoreColor = (s) => s >= 80 ? "#34d399" : s >= 60 ? "#fbbf24" : "#f87171";
+
+  return (
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(135deg, #0a0f1e 0%, #0d0820 50%, #0a0f1e 100%)",
+      color: "#e2e8f0",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+        * { box-sizing: border-box; }
+        input[type=date]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); cursor: pointer; }
+        input:focus { outline: 2px solid rgba(167,139,250,0.5); }
+        .del-btn { opacity: 0; transition: opacity 0.2s; }
+        tr:hover .del-btn { opacity: 1; }
+        .flash-row { animation: flashIn 1.2s ease; }
+        @keyframes flashIn {
+          0% { background: rgba(167,139,250,0.2); }
+          100% { background: transparent; }
+        }
+        .tip-card:hover { transform: translateY(-3px); background: rgba(167,139,250,0.08) !important; }
+        .tip-card { transition: transform 0.2s, background 0.2s; }
+        .add-btn:hover { background: #7c3aed !important; transform: translateY(-1px); }
+        .add-btn { transition: background 0.2s, transform 0.15s; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.3); border-radius: 3px; }
+      `}</style>
+
+      {/* Header */}
+      <div style={{
+        padding: "18px 32px",
+        background: "rgba(10,15,30,0.9)",
+        borderBottom: "1px solid rgba(167,139,250,0.15)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backdropFilter: "blur(12px)",
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{
+            width: 34, height: 34, borderRadius: 10,
+            background: "linear-gradient(135deg, #7c3aed, #a78bfa)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 16,
+          }}>📊</div>
+          <div>
+            <h1 style={{ margin: 0, fontSize: 17, fontFamily: "'Space Mono', monospace", color: "#a78bfa", letterSpacing: "-0.02em" }}>QuantX Core</h1>
+            <p style={{ margin: 0, fontSize: 11, color: "#64748b", fontFamily: "'Space Mono', monospace" }}>EQ Performance Tracker</p>
+          </div>
+        </div>
+        <div style={{
+          fontSize: 12, fontFamily: "'Space Mono', monospace", color: "#64748b",
+          background: "rgba(167,139,250,0.08)", padding: "6px 14px", borderRadius: 20,
+          border: "1px solid rgba(167,139,250,0.15)",
+        }}>
+          {totalDays} {totalDays === 1 ? "entry" : "entries"}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 900, margin: "auto", padding: "28px 20px 60px" }}>
+
+        {/* Add Entry */}
+        <div style={{
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(167,139,250,0.15)",
+          borderRadius: 20,
+          padding: 24,
+          marginBottom: 24,
+        }}>
+          <h3 style={{ margin: "0 0 18px", fontSize: 14, fontFamily: "'Space Mono', monospace", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>+ Log Entry</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <input
+              type="date"
+              value={date}
+              onChange={e => setDate(e.target.value)}
+              style={{
+                flex: 2, minWidth: 140, padding: "12px 14px",
+                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12, color: "#e2e8f0", fontSize: 14,
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            />
+            <input
+              type="number"
+              value={hours}
+              onChange={e => setHours(e.target.value)}
+              placeholder="Hours worked"
+              min="0"
+              style={{
+                flex: 2, minWidth: 130, padding: "12px 14px",
+                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12, color: "#e2e8f0", fontSize: 14,
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            />
+            <input
+              type="number"
+              value={score}
+              onChange={e => setScore(e.target.value)}
+              placeholder="Score (0–100)"
+              min="0" max="100"
+              style={{
+                flex: 2, minWidth: 130, padding: "12px 14px",
+                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12, color: "#e2e8f0", fontSize: 14,
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            />
+            <button
+              className="add-btn"
+              onClick={addEntry}
+              style={{
+                flex: 1, minWidth: 100, padding: "12px 20px",
+                background: "#7c3aed", border: "none", borderRadius: 12,
+                color: "white", fontSize: 14, fontWeight: 600,
+                cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+              }}
+            >Add →</button>
+          </div>
+          {error && <p style={{ margin: "12px 0 0", color: "#f87171", fontSize: 13 }}>{error}</p>}
+        </div>
+
+        {/* Stats */}
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 24 }}>
+          <StatBox label="Total Days" value={totalDays} color="#a78bfa" />
+          <StatBox label="Avg Score" value={`${avgScore}%`} color={avgScore >= 80 ? "#34d399" : avgScore >= 60 ? "#fbbf24" : "#f87171"} />
+          <StatBox label="Total Hours" value={`${totalHours}h`} color="#60a5fa" />
+          <StatBox label="Best Score" value={`${bestScore}%`} color="#f472b6" />
+        </div>
+
+        {/* Chart */}
+        {entries.length > 0 && (
+          <div style={{
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(167,139,250,0.15)",
+            borderRadius: 20,
+            padding: 24,
+            marginBottom: 24,
+          }}>
+            <h3 style={{ margin: "0 0 20px", fontSize: 14, fontFamily: "'Space Mono', monospace", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>Performance Trend</h3>
+            <ResponsiveContainer width="100%" height={220}>
+              <AreaChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="scoreGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#a78bfa" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#a78bfa" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="hoursGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#34d399" stopOpacity={0.2} />
+                    <stop offset="100%" stopColor="#34d399" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis dataKey="date" tick={{ fill: "#64748b", fontSize: 11, fontFamily: "Space Mono" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "#64748b", fontSize: 11, fontFamily: "Space Mono" }} axisLine={false} tickLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" dataKey="score" stroke="#a78bfa" strokeWidth={2.5} fill="url(#scoreGrad)" dot={{ fill: "#a78bfa", r: 4, strokeWidth: 0 }} activeDot={{ r: 6 }} name="Score %" />
+                <Area type="monotone" dataKey="hours" stroke="#34d399" strokeWidth={2} fill="url(#hoursGrad)" dot={{ fill: "#34d399", r: 3, strokeWidth: 0 }} activeDot={{ r: 5 }} name="Hours" />
+              </AreaChart>
+            </ResponsiveContainer>
+            <div style={{ display: "flex", gap: 20, marginTop: 12, justifyContent: "center" }}>
+              <span style={{ fontSize: 12, color: "#64748b", fontFamily: "'Space Mono', monospace" }}><span style={{ color: "#a78bfa" }}>●</span> Score %</span>
+              <span style={{ fontSize: 12, color: "#64748b", fontFamily: "'Space Mono', monospace" }}><span style={{ color: "#34d399" }}>●</span> Hours</span>
+            </div>
+          </div>
+        )}
+
+        {/* History Table */}
+        <div style={{
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(167,139,250,0.15)",
+          borderRadius: 20,
+          padding: 24,
+          marginBottom: 24,
+          overflowX: "auto",
+        }}>
+          <h3 style={{ margin: "0 0 18px", fontSize: 14, fontFamily: "'Space Mono', monospace", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>History</h3>
+          {entries.length === 0 ? (
+            <p style={{ textAlign: "center", color: "#475569", fontFamily: "'Space Mono', monospace", fontSize: 13, padding: "24px 0" }}>No entries yet — start logging above.</p>
+          ) : (
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr>
+                  {["Date", "Hours", "Score", "Rating", ""].map(h => (
+                    <th key={h} style={{
+                      padding: "8px 12px", textAlign: "left",
+                      fontSize: 11, fontFamily: "'Space Mono', monospace",
+                      color: "#475569", textTransform: "uppercase", letterSpacing: "0.08em",
+                      borderBottom: "1px solid rgba(255,255,255,0.07)",
+                    }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {entries.map((e, i) => (
+                  <tr key={i} className={flashRow === e.date ? "flash-row" : ""} style={{ transition: "background 0.2s" }}>
+                    <td style={{ padding: "11px 12px", fontFamily: "'Space Mono', monospace", fontSize: 13, color: "#cbd5e1", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>{e.date}</td>
+                    <td style={{ padding: "11px 12px", fontFamily: "'Space Mono', monospace", fontSize: 13, color: "#60a5fa", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>{e.hours}h</td>
+                    <td style={{ padding: "11px 12px", fontFamily: "'Space Mono', monospace", fontSize: 13, color: scoreColor(e.score), borderBottom: "1px solid rgba(255,255,255,0.04)" }}>{e.score}%</td>
+                    <td style={{ padding: "11px 12px", fontSize: 16, borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                      {e.score >= 90 ? "🔥" : e.score >= 75 ? "⚡" : e.score >= 60 ? "📈" : "💪"}
+                    </td>
+                    <td style={{ padding: "11px 12px", borderBottom: "1px solid rgba(255,255,255,0.04)", textAlign: "right" }}>
+                      <button className="del-btn" onClick={() => deleteEntry(i)} style={{
+                        background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.2)",
+                        color: "#f87171", borderRadius: 8, padding: "4px 10px", fontSize: 12,
+                        cursor: "pointer", fontFamily: "'Space Mono', monospace",
+                      }}>del</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {/* Tips Section */}
+        <div style={{
+          background: "rgba(255,255,255,0.02)",
+          border: "1px solid rgba(167,139,250,0.1)",
+          borderRadius: 20,
+          padding: 24,
+        }}>
+          <h3 style={{ margin: "0 0 20px", fontSize: 14, fontFamily: "'Space Mono', monospace", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>🚀 Why This Tracker Works</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 14 }}>
+            {tips.map((t, i) => (
+              <div key={i} className="tip-card" style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: 14,
+                padding: "16px 18px",
+                cursor: "default",
+              }}>
+                <p style={{ margin: 0, fontSize: 20 }}>{t.icon}</p>
+                <p style={{ margin: "8px 0 4px", fontSize: 13, fontWeight: 600, color: "#c4b5fd" }}>{t.title}</p>
+                <p style={{ margin: 0, fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>{t.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+      
